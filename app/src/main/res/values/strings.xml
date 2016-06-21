@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Confession</string>
+    <string name="title_activity_main">Confession : A Catholic App</string>
+    <string name="title_activity_create_user">Create User</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+
+    <!-- Strings related to login -->
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="dob">Date of Birth</string>
+    <string name="sex">Sex</string>
+    <string name="vocation">Vocation</string>
+    <string name="single">Single</string>
+    <string name="married">Married</string>
+    <string name="priest">Priest</string>
+    <string name="religious">Religious</string>
+    <string name="last_confession">Last Confession</string>
+    <string name="save">Save</string>
+    <string name="content_authority">com.abahnj.confession</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="person_added">User added successfully</string>
+    <string name="cancel">Cancel</string>
+    <string name="login">Login</string>
+    <string name="incorrect_password">Password is Incorrect</string>
+    <string name="invalid_query_uri">Invalid Uri Provided</string>
+    <string name="examination">Examination of Conscience</string>
+    <string name="confession">Confession</string>
+    <string name="prayers">Prayers</string>
+    <string name="title_activity_examination">Examination of Conscience</string>
+    <string name="action_settings">Settings</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sex_array">
+        <item>@string/male</item>
+        <item>@string/female</item>
+    </string-array>
+    <string-array name="vocation_array">
+        <item>@string/single</item>
+        <item>@string/married</item>
+        <item>@string/priest</item>
+        <item>@string/religious</item>
+    </string-array>
+</resources>
