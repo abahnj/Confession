@@ -2,12 +2,13 @@ package com.abahnj.confession.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import com.abahnj.confession.data.ConfessionContract.PersonEntry;
+
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
+
 /**
  * Created by abahnj on 5/30/2016.
  */
-public class ConfessionDbHelper extends SQLiteOpenHelper {
+public class ConfessionDbHelper extends SQLiteAssetHelper {
     // If you change the database schema, you must increment the database version.
     private static final int DATABASE_VERSION = 1;
 
@@ -17,7 +18,7 @@ public class ConfessionDbHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    @Override
+    /*@Override
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_PERSON_TABLE = "CREATE TABLE "
                 + PersonEntry.TABLE_NAME
@@ -32,9 +33,21 @@ public class ConfessionDbHelper extends SQLiteOpenHelper {
                 + PersonEntry.COLUMN_MARRIED + " INTEGER"
                 + " );";
 
-        db.execSQL(SQL_CREATE_PERSON_TABLE);
-    }
+        final String SQL_CREATE_COMMANDMENT_TABLE = "CREATE TABLE "
+                + CommandmentEntry.TABLE_NAME
+                + " ("
+                + CommandmentEntry._ID + " INTEGER PRIMARY KEY, "
+                + CommandmentEntry.COLUMN_NUMBER + " INTEGER, "
+                + CommandmentEntry.COLUMN_TEXT + " VARCHAR, "
+                + CommandmentEntry.COLUMN_CATEGORY + " VARCHAR, "
+                + CommandmentEntry.COLUMN_COMMANDMENT + " VARCHAR, "
+                + CommandmentEntry.COLUMN_CUSTOMID + " INTEGER"
+                + " );";
 
+        db.execSQL(SQL_CREATE_PERSON_TABLE);
+        db.execSQL(SQL_CREATE_COMMANDMENT_TABLE);
+    }
+*/
     @Override
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);

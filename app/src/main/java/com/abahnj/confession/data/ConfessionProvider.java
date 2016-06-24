@@ -6,7 +6,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
@@ -21,11 +20,26 @@ public class ConfessionProvider extends ContentProvider {
     //used to access the database
     private ConfessionDbHelper mDbHelper;
 
-    static final int PERSON = 100;
-    static final int ONE_PERSON = 101;
+    private static final int PERSON = 100;
+    private static final int ONE_PERSON = 101;
+    private static final int COMMANDMENTS = 200 ;
 
     //used to figure out the URI to match
     private static final UriMatcher sUriMatcher = buildUriMatcher();
+
+
+    private Cursor getPersonWithId(Uri uri, String[] projection, String sortOrder) {
+        String personId = PersonEntry._ID + "=" + uri.getLastPathSegment();
+        return  mDbHelper.getReadableDatabase().query(
+                ConfessionContract.PersonEntry.TABLE_NAME,
+                projection,
+                personId,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+    }
 
     private static UriMatcher buildUriMatcher() {
         // 1) The code passed into the constructor represents the code to return for the root
@@ -37,7 +51,7 @@ public class ConfessionProvider extends ContentProvider {
         // WeatherContract to help define the types to the UriMatcher.
         matcher.addURI(authority, ConfessionContract.PATH_PERSON, PERSON);
         matcher.addURI(authority, ConfessionContract.PATH_PERSON + "/#", ONE_PERSON);
-
+        matcher.addURI(authority, ConfessionContract.PATH_COMMANDMENTS, COMMANDMENTS);
 
         // 3) Return the new matcher!
         return matcher;
@@ -55,32 +69,41 @@ public class ConfessionProvider extends ContentProvider {
 
         Cursor retCursor;
         // create SQLiteQueryBuilder for querying person table
-        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-        queryBuilder.setTables(PersonEntry.TABLE_NAME);
 
         switch (sUriMatcher.match(uri)){
             case ONE_PERSON:
-                queryBuilder.appendWhere(PersonEntry._ID + "=" + uri.getLastPathSegment());
+                retCursor = getPersonWithId(uri, projection, sortOrder);
                 break;
             case PERSON:
+                retCursor = mDbHelper.getReadableDatabase().query(
+                        ConfessionContract.PersonEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            case COMMANDMENTS:
+                retCursor = mDbHelper.getReadableDatabase().query(
+                        ConfessionContract.CommandmentEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
                 break;
             default:
                 throw new UnsupportedOperationException(
                         getContext().getString(R.string.invalid_query_uri) + uri);
         }
-        retCursor = queryBuilder.query(
-                mDbHelper.getReadableDatabase(),
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrder
-        );
         retCursor.setNotificationUri(getContext().getContentResolver(), uri);
-
         return retCursor;
     }
+
 
     @Nullable
     @Override

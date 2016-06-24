@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
 
         getLoaderManager().initLoader(PERSON_LOADER, null, this);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewL);
 
         // recyclerView should display items in a vertical list
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
