@@ -31,4 +31,15 @@
     <string name="prayers">Prayers</string>
     <string name="title_activity_examination">Examination of Conscience</string>
     <string name="action_settings">Settings</string>
+    <string name="user_details_pref">USER_DETAILS</string>
+
+    <string name="pref_user_name">username</string>
+    <string name="pref_user_sex">sex</string>
+    <string name="pref_user_vocation">vocation</string>
+    <string name="pref_user_birthDate">birthDate</string>
+    <string name="pref_user_actOfContrition">actOfContrition</string>
+    <string name="pref_user_lastConfession">lastConfession</string>
+    <string name="pref_user_id">id</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

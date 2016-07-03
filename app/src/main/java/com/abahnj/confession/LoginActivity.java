@@ -18,7 +18,8 @@ import android.widget.Toast;
 
 import com.abahnj.confession.data.ConfessionContract.PersonEntry;
 
-public class LoginActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, PasswordFragment.PasswordDialogListener{
+public class LoginActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,
+        PasswordFragment.PasswordDialogListener{
 
     private final String LOG_TAG = LoginActivity.class.getSimpleName();
     static final int PERSON_SAVED_REQUEST = 2;
@@ -53,11 +54,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             // On the one hand, that's annoying.  On the other, you can search the weather table
             // using the location set by the user, which is only in the Location table.
             // So the convenience is worth it.
-            PersonEntry.COLUMN_PASSWORD
+            PersonEntry.COLUMN_PASSWORD,
 
     };
 
     static final int COL_PASSWORD = 0;
+
+    private static final String[] USER_COLUMNS = {
+            // In this case the id needs to be fully qualified with a table name, since
+            // the content provider joins the location & weather tables in the background
+            // (both have an _id column)
+            // On the one hand, that's annoying.  On the other, you can search the weather table
+            // using the location set by the user, which is only in the Location table.
+            // So the convenience is worth it.
+            PersonEntry.COLUMN_NAME,
+            PersonEntry.COLUMN_MARRIED,
+            PersonEntry.COLUMN_SEX,
+            PersonEntry.COLUMN_LASTCONFESSION,
+            PersonEntry.COLUMN_BIRTHDATE,
+            PersonEntry.COLUMN_ACTOFCONTRITION,
+            PersonEntry._ID
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,15 +173,56 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
     public void onDialogPositiveClick(DialogFragment dialog, String password, Uri mUri) {
 //        Toast.makeText(this, mUri.toString(), Toast.LENGTH_LONG).show();
 
+        String username = null;
+        int married = -1;
+        int sex = -1;
+        int actOfContrition = -1;
+        long birthDate = -1;
+        long lastConfession = -1;
+        int id = -1;
+
         if (password.contentEquals(confirmPassword(mUri))){
+            Cursor userCursor = getContentResolver().query(mUri,
+                    USER_COLUMNS,
+                    null,
+                    null,
+                    null);
+            if (userCursor != null && userCursor.moveToFirst()) {
+                int marriedIndex = userCursor.getColumnIndex(PersonEntry.COLUMN_MARRIED);
+                married = userCursor.getInt(marriedIndex);
+                int userNameIndex = userCursor.getColumnIndex(PersonEntry.COLUMN_NAME);
+                username = userCursor.getString(userNameIndex);
+                int sexIndex = userCursor.getColumnIndex(PersonEntry.COLUMN_SEX);
+                sex = userCursor.getInt(sexIndex);
+                int actOfContritionIndex = userCursor.getColumnIndex(PersonEntry.COLUMN_ACTOFCONTRITION);
+                actOfContrition = userCursor.getInt(actOfContritionIndex);
+                int birthDateIndex = userCursor.getColumnIndex(PersonEntry.COLUMN_BIRTHDATE);
+                birthDate = userCursor.getLong(birthDateIndex);
+                int lastConfessionIndex = userCursor.getColumnIndex(PersonEntry.COLUMN_LASTCONFESSION);
+                lastConfession = userCursor.getLong(lastConfessionIndex);
+                int idIndex = userCursor.getColumnIndex(PersonEntry._ID);
+                id = userCursor.getInt(idIndex);
+                userCursor.close();
+            }
+
+            // TODO switch to using a shared preferences file to avoid passing around bundles
+            Bundle bundle = new Bundle();
+            bundle.putString("username", username);
+            bundle.putInt("sex", sex);
+            bundle.putInt("vocation", married);
+            bundle.putInt("actOfContrition", actOfContrition);
+            bundle.putLong("birthDate", birthDate);
+            bundle.putLong("lastConfession", lastConfession);
+            bundle.putInt("id", id);
             Intent intent = new Intent(this, MainActivity.class);
-            intent.setData(mUri);
+            intent.putExtras(bundle);
             startActivity(intent);
         }
         else {Toast.makeText(this, R.string.incorrect_password, Toast.LENGTH_LONG).show();}
 
 
     }
+
     private String confirmPassword(Uri mUri) {
         String password = null;
         Cursor passwordCursor = getContentResolver().query(mUri,

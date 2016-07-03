@@ -6,6 +6,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
@@ -22,10 +23,26 @@ public class ConfessionProvider extends ContentProvider {
 
     private static final int PERSON = 100;
     private static final int ONE_PERSON = 101;
-    private static final int COMMANDMENTS = 200 ;
+    private static final int COMMANDMENTS = 200;
+    private static final int SIN = 300;
 
     //used to figure out the URI to match
     private static final UriMatcher sUriMatcher = buildUriMatcher();
+
+    private static final SQLiteQueryBuilder sExaminationWithCountQueryBuilder;
+
+    static{ sExaminationWithCountQueryBuilder = new SQLiteQueryBuilder();
+
+        //This is an inner join which looks like
+        //weather INNER JOIN location ON weather.location_id = location._id
+        sExaminationWithCountQueryBuilder.setTables(
+                ConfessionContract.SinEntry.TABLE_NAME + " LEFT OUTER JOIN " +
+                        ConfessionContract.PersonToSinEntry.TABLE_NAME +
+                        " ON " + ConfessionContract.SinEntry.TABLE_NAME +
+                        "." + ConfessionContract.SinEntry._ID +
+                        " = " + ConfessionContract.PersonToSinEntry.TABLE_NAME +
+                        "." + ConfessionContract.PersonToSinEntry.COLUMN_SINS_ID);
+    }
 
 
     private Cursor getPersonWithId(Uri uri, String[] projection, String sortOrder) {
@@ -52,6 +69,7 @@ public class ConfessionProvider extends ContentProvider {
         matcher.addURI(authority, ConfessionContract.PATH_PERSON, PERSON);
         matcher.addURI(authority, ConfessionContract.PATH_PERSON + "/#", ONE_PERSON);
         matcher.addURI(authority, ConfessionContract.PATH_COMMANDMENTS, COMMANDMENTS);
+        matcher.addURI(authority, ConfessionContract.PATH_SIN, SIN);
 
         // 3) Return the new matcher!
         return matcher;
@@ -95,6 +113,25 @@ public class ConfessionProvider extends ContentProvider {
                         null,
                         sortOrder
                 );
+                break;
+            case SIN:
+                retCursor = sExaminationWithCountQueryBuilder.query(mDbHelper.getReadableDatabase(),
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+
+                        /*mDbHelper.getReadableDatabase().query(
+                        ConfessionContract.SinEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder*/
+
                 break;
             default:
                 throw new UnsupportedOperationException(

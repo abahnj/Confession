@@ -26,15 +26,10 @@ public class CreateUserActivity extends AppCompatActivity {
     // EditTexts for contact information
     private EditText nameTextInputLayout;
     private EditText passwordTextInputLayout;
-    private Button savePersonButton;
-    private String sex;
+    private int sex;
     private int vocation;
-    private Spinner sexSpinner;
-    private Spinner vocationSpinner;
     private static Long dob;
     private static Long lastConfession;
-    private ArrayAdapter<CharSequence> vocationAdapter;
-    private ArrayAdapter<CharSequence> sexAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +40,9 @@ public class CreateUserActivity extends AppCompatActivity {
         if(getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        sexSpinner = (Spinner) findViewById(R.id.sex_spinner);
+        Spinner sexSpinner = (Spinner) findViewById(R.id.sex_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        sexAdapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(this,
                 R.array.sex_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -56,9 +51,9 @@ public class CreateUserActivity extends AppCompatActivity {
         sexSpinner.setOnItemSelectedListener(VS);
 
 
-        vocationSpinner = (Spinner) findViewById(R.id.vocation_spinner);
+        Spinner vocationSpinner = (Spinner) findViewById(R.id.vocation_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        vocationAdapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> vocationAdapter = ArrayAdapter.createFromResource(this,
                 R.array.vocation_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         vocationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -74,7 +69,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
 
         // set FloatingActionButton's event listener
-        savePersonButton = (Button) findViewById(
+        Button savePersonButton = (Button) findViewById(
                 R.id.save_user_button);
         savePersonButton.setOnClickListener(BC);
 
@@ -99,7 +94,7 @@ public class CreateUserActivity extends AppCompatActivity {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             switch (parent.getId()) {
                 case R.id.sex_spinner:
-                    sex = parent.getSelectedItem().toString();
+                    sex = position;
                     break;
                 case R.id.vocation_spinner:
                     vocation = position;

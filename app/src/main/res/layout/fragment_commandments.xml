@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExaminationFragment">
+    tools:context=".CommandmentFragment">
     <android.support.v7.widget.RecyclerView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:id="@+id/recyclerViewE">
+        android:id="@+id/recyclerViewC">
 
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>
