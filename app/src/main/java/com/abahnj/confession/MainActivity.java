@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,9 +40,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void prayers(View view) {
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        int silent = settings.getInt("vocation", 99);
-        Toast.makeText(this, String.valueOf(silent), Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, PrayersActivity.class);
+        startActivity(intent);
     }
 
     @Override

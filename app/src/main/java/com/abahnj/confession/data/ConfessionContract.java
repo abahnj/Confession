@@ -13,16 +13,14 @@ public class ConfessionContract {
     // ContentProvider's name: typically the package name
     public static final String CONTENT_AUTHORITY =
             "com.abahnj.confession";
-
-    // base URI used to interact with the ContentProvider
-    private static final Uri BASE_CONTENT_URI =
-            Uri.parse("content://" + CONTENT_AUTHORITY);
-
     public static final String PATH_PERSON = "PERSON";
     public static final String PATH_COMMANDMENTS = "COMMANDMENTS";
     public static final String PATH_SIN = "SIN";
     public static final String PATH_PERSON_2_SIN = "PERSON_2_SIN";
-
+    public static final String PATH_PRAYERS = "PRAYERS";
+    // base URI used to interact with the ContentProvider
+    private static final Uri BASE_CONTENT_URI =
+            Uri.parse("content://" + CONTENT_AUTHORITY);
 
     // nested class defines contents of the contacts table
     public static final class PersonEntry implements BaseColumns{
@@ -108,6 +106,10 @@ public class ConfessionContract {
         public static final String COLUMN_CUSTOM_ID = "CUSTOM_ID";
         public static final String COLUMN_DESCRIPTION = "DESCRIPTION";
 
+        // creates a Uri for a specific person
+        public static Uri buildSinUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
     }
 
     public static final class PersonToSinEntry implements BaseColumns{
@@ -123,7 +125,29 @@ public class ConfessionContract {
         public static final String COLUMN_EDITED = "EDITED";
         public static final String COLUMN_DELETED = "DELETED";
 
+        // creates a Uri for a specific person
+        public static Uri buildSinUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
 
+    }
+
+    public static final class PrayersEntry implements BaseColumns {
+        public static final String TABLE_NAME = "PRAYERS";
+
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
+                .appendPath(PATH_PRAYERS)
+                .build();
+
+        public static final String COLUMN_PRAYERNAME = "PRAYERNAME";
+        public static final String COLUMN_PRAYERTEXT = "PRAYERTEXT";
+        public static final String COLUMN_GROUPNAME = "GROUPNAME";
+        public static final String COLUMN_CUSTOM = "CUSTOM";
+
+        public static Uri buildPrayersUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+
+        }
     }
 
 

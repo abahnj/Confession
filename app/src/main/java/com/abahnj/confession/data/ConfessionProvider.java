@@ -8,33 +8,31 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.abahnj.confession.R;
-import com.abahnj.confession.data.ConfessionContract.PersonEntry;
 
 /**
  * Created by abahnj on 5/31/2016.
  */
 public class ConfessionProvider extends ContentProvider {
 
-    //used to access the database
-    private ConfessionDbHelper mDbHelper;
-
     private static final int PERSON = 100;
     private static final int ONE_PERSON = 101;
     private static final int COMMANDMENTS = 200;
     private static final int SIN = 300;
-
+    private static final int PERSON_2_SIN = 400;
+    private static final int ONE_PERSON_2_SIN = 401;
+    private static final int PRAYERS = 500;
     //used to figure out the URI to match
     private static final UriMatcher sUriMatcher = buildUriMatcher();
-
     private static final SQLiteQueryBuilder sExaminationWithCountQueryBuilder;
 
     static{ sExaminationWithCountQueryBuilder = new SQLiteQueryBuilder();
 
-        //This is an inner join which looks like
-        //weather INNER JOIN location ON weather.location_id = location._id
+        //This is a left outer join which looks like
+        //SIN LEFT OUTER JOIN PERSON_2_SIN ON SIN._id = PERSON_2_SIN.SINS_ID
         sExaminationWithCountQueryBuilder.setTables(
                 ConfessionContract.SinEntry.TABLE_NAME + " LEFT OUTER JOIN " +
                         ConfessionContract.PersonToSinEntry.TABLE_NAME +
@@ -44,19 +42,8 @@ public class ConfessionProvider extends ContentProvider {
                         "." + ConfessionContract.PersonToSinEntry.COLUMN_SINS_ID);
     }
 
-
-    private Cursor getPersonWithId(Uri uri, String[] projection, String sortOrder) {
-        String personId = PersonEntry._ID + "=" + uri.getLastPathSegment();
-        return  mDbHelper.getReadableDatabase().query(
-                ConfessionContract.PersonEntry.TABLE_NAME,
-                projection,
-                personId,
-                null,
-                null,
-                null,
-                sortOrder
-        );
-    }
+    //used to access the database
+    private ConfessionDbHelper mDbHelper;
 
     private static UriMatcher buildUriMatcher() {
         // 1) The code passed into the constructor represents the code to return for the root
@@ -70,10 +57,27 @@ public class ConfessionProvider extends ContentProvider {
         matcher.addURI(authority, ConfessionContract.PATH_PERSON + "/#", ONE_PERSON);
         matcher.addURI(authority, ConfessionContract.PATH_COMMANDMENTS, COMMANDMENTS);
         matcher.addURI(authority, ConfessionContract.PATH_SIN, SIN);
+        matcher.addURI(authority, ConfessionContract.PATH_PERSON_2_SIN, PERSON_2_SIN);
+        matcher.addURI(authority, ConfessionContract.PATH_PERSON_2_SIN + "/#", ONE_PERSON_2_SIN);
+        matcher.addURI(authority, ConfessionContract.PATH_PRAYERS, PRAYERS);
 
         // 3) Return the new matcher!
         return matcher;
     }
+
+    private Cursor getPersonWithId(Uri uri, String[] projection, String sortOrder) {
+        String personId = ConfessionContract.PersonEntry._ID + "=" + uri.getLastPathSegment();
+        return mDbHelper.getReadableDatabase().query(
+                ConfessionContract.PersonEntry.TABLE_NAME,
+                projection,
+                personId,
+                null,
+                null,
+                null,
+                sortOrder
+        );
+    }
+
     @Override
     public boolean onCreate() {
         //create the new Confession Database
@@ -115,7 +119,8 @@ public class ConfessionProvider extends ContentProvider {
                 );
                 break;
             case SIN:
-                retCursor = sExaminationWithCountQueryBuilder.query(mDbHelper.getReadableDatabase(),
+                retCursor = sExaminationWithCountQueryBuilder.query(
+                        mDbHelper.getReadableDatabase(),
                         projection,
                         selection,
                         selectionArgs,
@@ -132,6 +137,28 @@ public class ConfessionProvider extends ContentProvider {
                         null,
                         sortOrder*/
 
+                break;
+            case PERSON_2_SIN:
+                retCursor = mDbHelper.getReadableDatabase().query(
+                        ConfessionContract.PersonToSinEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            case PRAYERS:
+                retCursor = mDbHelper.getReadableDatabase().query(
+                        ConfessionContract.PrayersEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
                 break;
             default:
                 throw new UnsupportedOperationException(
@@ -161,16 +188,16 @@ public class ConfessionProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri, ContentValues values) {
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         Uri returnUri;
 
         switch (match) {
             case PERSON: {
-                long _id = db.insert(PersonEntry.TABLE_NAME, null, values);
+                long _id = db.insert(ConfessionContract.PersonEntry.TABLE_NAME, null, values);
                 if ( _id > 0 ) {
-                    returnUri = PersonEntry.buildPersonUri(_id);
+                    returnUri = ConfessionContract.PersonEntry.buildPersonUri(_id);
                     getContext().getContentResolver().notifyChange(uri, null);
                 }
                 else
@@ -194,7 +221,7 @@ public class ConfessionProvider extends ContentProvider {
         switch (match) {
             case ONE_PERSON: {
                 String id = uri.getLastPathSegment();
-                rowsDeleted = db.delete(PersonEntry.TABLE_NAME, PersonEntry._ID + "=" + id, selectionArgs);
+                rowsDeleted = db.delete(ConfessionContract.PersonEntry.TABLE_NAME, ConfessionContract.PersonEntry._ID + "=" + id, selectionArgs);
                 break;
             }
 
@@ -219,12 +246,25 @@ public class ConfessionProvider extends ContentProvider {
 
         switch (match) {
             case ONE_PERSON: {
-
                 String id = uri.getLastPathSegment();
-                rowsUpdated = db.update(PersonEntry.TABLE_NAME, values, PersonEntry._ID + "=" + id, selectionArgs);
+                rowsUpdated = db.update(ConfessionContract.PersonEntry.TABLE_NAME,
+                        values,
+                        ConfessionContract.PersonEntry._ID + "=" + id,
+                        selectionArgs);
                 break;
             }
-
+            case ONE_PERSON_2_SIN: {
+                rowsUpdated = db.update(ConfessionContract.PersonToSinEntry.TABLE_NAME,
+                        values,
+                        selection,
+                        selectionArgs);
+                if (rowsUpdated == 0) {
+                    db.insert(ConfessionContract.PersonToSinEntry.TABLE_NAME,
+                            null,
+                            values);
+                }
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
