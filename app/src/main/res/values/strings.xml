@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">>
     <string name="app_name">Confession</string>
     <string name="title_activity_main">Confession : A Catholic App</string>
     <string name="title_activity_create_user">Create User</string>
@@ -33,14 +33,30 @@
     <string name="action_settings">Settings</string>
     <string name="user_details_pref">USER_DETAILS</string>
 
-    <string name="pref_user_name">username</string>
-    <string name="pref_user_sex">sex</string>
-    <string name="pref_user_vocation">vocation</string>
-    <string name="pref_user_birthDate">birthDate</string>
-    <string name="pref_user_actOfContrition">actOfContrition</string>
-    <string name="pref_user_lastConfession">lastConfession</string>
-    <string name="pref_user_id">id</string>
+    <string name="pref_user_name" translatable="false">username</string>
+    <string name="pref_user_sex" translatable="false">sex</string>
+    <string name="pref_user_vocation" translatable="false">vocation</string>
+    <string name="pref_user_birthDate" translatable="false">birthDate</string>
+    <string name="pref_user_actOfContrition" translatable="false">actOfContrition</string>
+    <string name="pref_user_lastConfession" translatable="false">lastConfession</string>
+    <string name="pref_user_id" translatable="false">id</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_prayers">Prayers</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="title_activity_confession">Confession</string>
+    <string name="db_name">confession.db</string>
+    <string name="sign_of_the_cross">In the name of the Father, and the Son, and the Holy Spirit. Amen</string>
+    <string name="null_time_since_last">Tell the priest how long it has been since your last confession. Next time we will calculate this for you</string>
+    <string name="time_since_last">Father, it has been <xliff:g id="time since last confession">%1$s</xliff:g> since my last confession.</string>
+    <string name="confessionNotice">This app is intended to be used during the Sacrament of Reconciliation with a Catholic priest only. This is not a substitute for a valid confession.</string>
+    <string name="context_menu_count">Count - 1</string>
+    <string name="context_menu_edit">Edit</string>
+    <string name="context_menu_delete">Delete</string>
+    <string name="context_menu_restore">Restore Default Text</string>
+    <string name="finish_confession">Finish Confession</string>
+    <string name="receive_absolution">Receive absolution and respond \"Amen\"</string>
+    <string name="response">If the priest says \"Give thanks to the Lord for He is good\" answer \"For His mercy endures forever.\"</string>
+
 </resources>

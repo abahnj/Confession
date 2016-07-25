@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
 
 public class ExaminationActivity extends AppCompatActivity implements CommandmentFragment.CommandmentFragmentListener, ExaminationFragment.OnFragmentInteractionListener{
@@ -72,4 +73,8 @@ public class ExaminationActivity extends AppCompatActivity implements Commandmen
     }
 
 
+    public void switchFragment(View view) {
+
+
+    }
 }

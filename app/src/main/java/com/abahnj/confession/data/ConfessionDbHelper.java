@@ -12,10 +12,11 @@ public class ConfessionDbHelper extends SQLiteAssetHelper {
     // If you change the database schema, you must increment the database version.
     private static final int DATABASE_VERSION = 1;
 
-    static final String DATABASE_NAME = "confession.db";
+    static String DATABASE_NAME = "confession.db";
 
-    public ConfessionDbHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
+    public ConfessionDbHelper(Context context, String DBNAME) {
+        super(context, DBNAME, null, DATABASE_VERSION);
     }
 
     /*@Override

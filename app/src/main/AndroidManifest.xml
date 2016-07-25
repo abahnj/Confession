@@ -61,6 +61,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.abahnj.confession.MainActivity" />
         </activity>
+        <activity
+            android:name=".ConfessionActivity"
+            android:label="@string/title_activity_confession"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.abahnj.confession.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

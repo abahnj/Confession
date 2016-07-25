@@ -50,5 +50,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void confession(View view) {
+        Intent intent = new Intent(this, ConfessionActivity.class);
+        startActivity(intent);
     }
 }

@@ -16,6 +16,9 @@ import android.view.ViewGroup;
 
 import com.abahnj.confession.data.ConfessionContract;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -31,6 +34,7 @@ public class PrayersFragment extends Fragment implements LoaderManager.LoaderCal
     private PrayersAdapter prayersAdapter;
     private RecyclerView mRecyclerView;
     private PrayersFragmentListener mListener;
+    private SimpleSectionedRecyclerViewAdapter mSectionedAdapter;
 
     public PrayersFragment() {
     }
@@ -57,6 +61,8 @@ public class PrayersFragment extends Fragment implements LoaderManager.LoaderCal
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_prayers, container, false);
 
+        getLoaderManager().initLoader(PRAYERS_LOADER, null, this);
+
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewP);
         mRecyclerView.setHasFixedSize(true);
 
@@ -66,8 +72,24 @@ public class PrayersFragment extends Fragment implements LoaderManager.LoaderCal
                 mListener.onPrayersSelected(prayersUri);
             }
         });
-        mRecyclerView.setAdapter(prayersAdapter);
+
+        //This is the code to provide a sectioned list
+        List<SimpleSectionedRecyclerViewAdapter.Section> sections =
+                new ArrayList<SimpleSectionedRecyclerViewAdapter.Section>();
+
+        //Sections
+        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(0, "Act of Contrition"));
+        sections.add(new SimpleSectionedRecyclerViewAdapter.Section(7, "Traditional Prayers"));
+
+        //Add your adapter to the sectionAdapter
+        SimpleSectionedRecyclerViewAdapter.Section[] dummy = new SimpleSectionedRecyclerViewAdapter.Section[sections.size()];
+        mSectionedAdapter = new
+                SimpleSectionedRecyclerViewAdapter(getContext(), R.layout.section, R.id.section_text, prayersAdapter);
+        mSectionedAdapter.setSections(sections.toArray(dummy));
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        //mRecyclerView.setAdapter(mSectionedAdapter);
 
         return rootView;
 
@@ -75,7 +97,7 @@ public class PrayersFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        getLoaderManager().initLoader(PRAYERS_LOADER, null, this);
+        //getLoaderManager().initLoader(PRAYERS_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
 
     }
@@ -98,6 +120,8 @@ public class PrayersFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         prayersAdapter.swapCursor(data);
+        mRecyclerView.setAdapter(mSectionedAdapter);
+
     }
 
     @Override
@@ -109,6 +133,5 @@ public class PrayersFragment extends Fragment implements LoaderManager.LoaderCal
     public interface PrayersFragmentListener {
         // called when contact selected
         void onPrayersSelected(Uri prayersUri);
-
     }
 }

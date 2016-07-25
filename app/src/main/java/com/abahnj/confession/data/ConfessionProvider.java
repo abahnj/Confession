@@ -40,6 +40,7 @@ public class ConfessionProvider extends ContentProvider {
                         "." + ConfessionContract.SinEntry._ID +
                         " = " + ConfessionContract.PersonToSinEntry.TABLE_NAME +
                         "." + ConfessionContract.PersonToSinEntry.COLUMN_SINS_ID);
+
     }
 
     //used to access the database
@@ -80,8 +81,9 @@ public class ConfessionProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
+        String db_name = getContext().getResources().getString(R.string.db_name);
         //create the new Confession Database
-        mDbHelper = new ConfessionDbHelper(getContext());
+        mDbHelper = new ConfessionDbHelper(getContext(), db_name);
         return true;
     }
 
@@ -219,12 +221,13 @@ public class ConfessionProvider extends ContentProvider {
         int rowsDeleted;
 
         switch (match) {
-            case ONE_PERSON: {
+            case ONE_PERSON:
                 String id = uri.getLastPathSegment();
                 rowsDeleted = db.delete(ConfessionContract.PersonEntry.TABLE_NAME, ConfessionContract.PersonEntry._ID + "=" + id, selectionArgs);
                 break;
-            }
-
+            case PERSON_2_SIN:
+                rowsDeleted = db.delete(ConfessionContract.PersonToSinEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -259,7 +262,7 @@ public class ConfessionProvider extends ContentProvider {
                         selection,
                         selectionArgs);
                 if (rowsUpdated == 0) {
-                    db.insert(ConfessionContract.PersonToSinEntry.TABLE_NAME,
+                    rowsUpdated = (int) db.insert(ConfessionContract.PersonToSinEntry.TABLE_NAME,
                             null,
                             values);
                 }

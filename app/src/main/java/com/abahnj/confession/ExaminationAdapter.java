@@ -19,9 +19,6 @@ public class ExaminationAdapter extends RecyclerView.Adapter<ExaminationAdapter.
     private static ExaminationClickListener clickListener;
     private Cursor mCursor;
 
-
-
-
     public ExaminationAdapter (ExaminationClickListener clickListener){
         this.clickListener = clickListener;
     }
@@ -95,17 +92,20 @@ public class ExaminationAdapter extends RecyclerView.Adapter<ExaminationAdapter.
                     return false;
                 }
             });
+
             itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
                 @Override
                 public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                    menu.setHeaderTitle("Select The Action");
-                    menu.add(0, v.getId(), 0, "Count - 1");
-                    menu.add(0, v.getId(), 0, "Count - 1");
-
+                    menu.add(0, 1, 0, R.string.context_menu_count);
+                    menu.add(0, 2, 0, R.string.context_menu_edit);
+                    menu.add(0, 3, 0, R.string.context_menu_delete);
+                    menu.add(0, 4, 0, R.string.context_menu_restore);
 
                 }
             });
+
         }
+
 
         // set the database row ID for the examination in this ViewHolder
         public void setRowID(long rowID) {

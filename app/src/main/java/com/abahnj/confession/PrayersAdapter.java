@@ -22,6 +22,12 @@ public class PrayersAdapter extends RecyclerView.Adapter<PrayersAdapter.PRAViewH
         this.clickListener = clickListener;
     }
 
+    // swap this adapter's current Cursor for a new one
+    public void swapCursor(Cursor cursor) {
+        mCursor = cursor;
+        notifyDataSetChanged();
+    }
+
     @Override
     public PRAViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 // inflate the android.R.layout.simple_list_item_1 layout
@@ -43,11 +49,6 @@ public class PrayersAdapter extends RecyclerView.Adapter<PrayersAdapter.PRAViewH
         return (mCursor != null) ? mCursor.getCount() : 0;
     }
 
-    // swap this adapter's current Cursor for a new one
-    public void swapCursor(Cursor cursor) {
-        mCursor = cursor;
-        notifyDataSetChanged();
-    }
 
     public interface PrayersClickListener {
         void onClick(Uri prayersUri, int position);

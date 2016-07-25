@@ -1,5 +1,7 @@
 package com.abahnj.confession;
 
+import android.content.Context;
+
 import com.abahnj.confession.data.ConfessionContract.SinEntry;
 
 import java.util.Calendar;
@@ -8,6 +10,8 @@ import java.util.Calendar;
  * Created by abahnj on 7/3/2016.
  */
 public class Utility {
+
+    private static final int SUCCESS_RETURN_CODE = 1;
 
     public static String calculateAgeBracket(Long birthDate) {
 
@@ -60,6 +64,31 @@ public class Utility {
                 throw new UnsupportedOperationException("Unknown sex: " + sex);        }
         return sexSelection;
     }
+
+    public static String lastConfession(Context context, long lastConfession) {
+        String timeSince = null;
+        long currentTime = System.currentTimeMillis();
+        long timeSinceLC = currentTime - lastConfession;
+        int days = ((int) (timeSinceLC / 86400000)) + SUCCESS_RETURN_CODE;
+        int weeks = days / 7;
+        int months = days / 31;
+        int years = days / 365;
+        if (years > SUCCESS_RETURN_CODE) {
+            timeSince = String.valueOf(String.valueOf(years)) + " years";
+        } else if (months > SUCCESS_RETURN_CODE) {
+            timeSince = String.valueOf(String.valueOf(months)) + " months";
+        } else if (weeks > SUCCESS_RETURN_CODE) {
+            timeSince = String.valueOf(String.valueOf(weeks)) + " weeks";
+        } else if (days > SUCCESS_RETURN_CODE) {
+            timeSince = String.valueOf(String.valueOf(days)) + " days";
+        }
+        if (timeSince != null) {
+            return (String.format(context.getString(R.string.time_since_last), timeSince));
+        } else {
+            return context.getString(R.string.null_time_since_last);
+        }
+    }
+
 }
 
 

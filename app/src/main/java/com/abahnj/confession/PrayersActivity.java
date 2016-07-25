@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 public class PrayersActivity extends AppCompatActivity implements PrayersFragment.PrayersFragmentListener {
 
-    private static final String PRAYERS_URI = "prayers_uri";
+    public static final String PRAYERS_URI = "prayers_uri";
     private PrayersFragment prayersFragment;
 
     @Override

@@ -22,20 +22,12 @@ import com.abahnj.confession.data.ConfessionContract.CommandmentEntry;
  */
 public class CommandmentFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private CommandmentAdapter commandmentAdapter;
-    private static final int COMMANDMENT_LOADER = 1;// identifies Loader
     public static final String PREFS_NAME = "MyPrefsFile";
-
-    public CommandmentFragment(){
-    }
-
+    private static final int COMMANDMENT_LOADER = 1;// identifies Loader
+    private CommandmentAdapter commandmentAdapter;
     private CommandmentFragmentListener mListener;
 
-    // callback method implemented by ExaminationActivity
-    public interface CommandmentFragmentListener {
-        // called when contact selected
-        void onCommandmentSelected(Uri commandmentUri);
-
+    public CommandmentFragment() {
     }
 
     @Override
@@ -63,6 +55,13 @@ public class CommandmentFragment extends Fragment implements LoaderManager.Loade
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(R.string.title_activity_examination);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_commandments, container, false);
@@ -86,10 +85,9 @@ public class CommandmentFragment extends Fragment implements LoaderManager.Loade
 
     }
 
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-    // create an appropriate CursorLoader based on the id argument;
+        // create an appropriate CursorLoader based on the id argument;
         // only one Loader in this fragment, so the switch is unnecessary
         CursorLoader cursorLoader = null;
         String sortOrder = CommandmentEntry.COLUMN_NUMBER + " COLLATE NOCASE ASC";
@@ -103,8 +101,7 @@ public class CommandmentFragment extends Fragment implements LoaderManager.Loade
                     CommandmentEntry.COLUMN_NUMBER + "!=" + "0", // null selection returns all rows
                     null, // no selection arguments
                     sortOrder); // sort order
-        }
-        else if (vocation > 1 && vocation <= 3){
+        } else if (vocation > 1 && vocation <= 3) {
             cursorLoader = new CursorLoader(getActivity(),
                     CommandmentEntry.CONTENT_URI, // Uri of contacts table
                     null, // null projection returns all columns
@@ -123,6 +120,13 @@ public class CommandmentFragment extends Fragment implements LoaderManager.Loade
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         commandmentAdapter.swapCursor(null);
+    }
+
+    // callback method implemented by ExaminationActivity
+    public interface CommandmentFragmentListener {
+        // called when contact selected
+        void onCommandmentSelected(Uri commandmentUri);
+
     }
 
 
