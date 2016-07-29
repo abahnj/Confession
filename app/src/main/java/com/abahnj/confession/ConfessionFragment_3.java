@@ -1,6 +1,7 @@
 package com.abahnj.confession;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -18,11 +19,11 @@ import com.abahnj.confession.data.ConfessionContract;
 public class ConfessionFragment_3 extends Fragment {
 
     public static final String PREFS_NAME = "MyPrefsFile";
-    private static final int FRAGMENT_TAG = 3;
     private static final String[] CONTRITION_COLUMNS = {
             ConfessionContract.PrayersEntry.COLUMN_PRAYERTEXT
     };
 
+    private OnFragmentInteractionListener mListener;
     public ConfessionFragment_3() {
     }
 
@@ -36,7 +37,12 @@ public class ConfessionFragment_3 extends Fragment {
         int contrition = user.getInt("actOfContrition", 6);
         actOfContrition.setText(updateTextView(contrition));
 
-
+        finishConfession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onFinishButtonClicked();
+            }
+        });
         return rootView;
     }
 
@@ -56,5 +62,22 @@ public class ConfessionFragment_3 extends Fragment {
             cursor.close();
         }
         return contrition;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 }

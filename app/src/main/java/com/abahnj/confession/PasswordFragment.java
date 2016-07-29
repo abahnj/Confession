@@ -1,12 +1,12 @@
 package com.abahnj.confession;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,15 +29,15 @@ public class PasswordFragment extends DialogFragment {
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            mListener = (PasswordDialogListener) activity;
+            mListener = (PasswordDialogListener) context;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement NoticeDialogListener");
         }
         Bundle arguments = getArguments();

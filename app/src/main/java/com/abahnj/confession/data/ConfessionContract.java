@@ -18,6 +18,7 @@ public class ConfessionContract {
     public static final String PATH_SIN = "SIN";
     public static final String PATH_PERSON_2_SIN = "PERSON_2_SIN";
     public static final String PATH_PRAYERS = "PRAYERS";
+    public static final String PATH_INSPIRATION = "INSPIRATION";
     // base URI used to interact with the ContentProvider
     private static final Uri BASE_CONTENT_URI =
             Uri.parse("content://" + CONTENT_AUTHORITY);
@@ -148,6 +149,18 @@ public class ConfessionContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
 
         }
+    }
+
+    public static final class InspirationEntry implements BaseColumns {
+        public static final String TABLE_NAME = "INSPIRATION";
+
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
+                .appendPath(PATH_INSPIRATION)
+                .build();
+
+        public static final String COLUMN_QUOTE = "QUOTE";
+        public static final String COLUMN_AUTHOR = "AUTHOR";
+
     }
 
 

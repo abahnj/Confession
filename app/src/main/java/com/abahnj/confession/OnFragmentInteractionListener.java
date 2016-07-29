@@ -6,5 +6,7 @@ package com.abahnj.confession;
 public interface OnFragmentInteractionListener {
     // TODO: Update argument type and name
     void onFragmentInteraction(int fragmentTag);
+    void onFinishButtonClicked();
+    void onFragmentDismiss();
 }
 

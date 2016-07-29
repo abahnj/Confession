@@ -58,5 +58,7 @@
     <string name="finish_confession">Finish Confession</string>
     <string name="receive_absolution">Receive absolution and respond \"Amen\"</string>
     <string name="response">If the priest says \"Give thanks to the Lord for He is good\" answer \"For His mercy endures forever.\"</string>
+    <string name="guide">Guide</string>
+    <string name="title_activity_guide">Confession Guide</string>
 
 </resources>

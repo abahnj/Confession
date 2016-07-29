@@ -25,6 +25,7 @@ public class ConfessionProvider extends ContentProvider {
     private static final int PERSON_2_SIN = 400;
     private static final int ONE_PERSON_2_SIN = 401;
     private static final int PRAYERS = 500;
+    private static final int INSPIRATION = 600;
     //used to figure out the URI to match
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private static final SQLiteQueryBuilder sExaminationWithCountQueryBuilder;
@@ -61,7 +62,7 @@ public class ConfessionProvider extends ContentProvider {
         matcher.addURI(authority, ConfessionContract.PATH_PERSON_2_SIN, PERSON_2_SIN);
         matcher.addURI(authority, ConfessionContract.PATH_PERSON_2_SIN + "/#", ONE_PERSON_2_SIN);
         matcher.addURI(authority, ConfessionContract.PATH_PRAYERS, PRAYERS);
-
+        matcher.addURI(authority, ConfessionContract.PATH_INSPIRATION, INSPIRATION);
         // 3) Return the new matcher!
         return matcher;
     }
@@ -129,16 +130,6 @@ public class ConfessionProvider extends ContentProvider {
                         null,
                         null,
                         sortOrder);
-
-                        /*mDbHelper.getReadableDatabase().query(
-                        ConfessionContract.SinEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder*/
-
                 break;
             case PERSON_2_SIN:
                 retCursor = mDbHelper.getReadableDatabase().query(
@@ -154,6 +145,17 @@ public class ConfessionProvider extends ContentProvider {
             case PRAYERS:
                 retCursor = mDbHelper.getReadableDatabase().query(
                         ConfessionContract.PrayersEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            case INSPIRATION:
+                retCursor = mDbHelper.getReadableDatabase().query(
+                        ConfessionContract.InspirationEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,

@@ -11,7 +11,6 @@ import android.widget.Toast;
 public class ExaminationActivity extends AppCompatActivity implements CommandmentFragment.CommandmentFragmentListener, ExaminationFragment.OnFragmentInteractionListener{
 
     public static final String COMMANDMENT_URI = "commandment_uri";
-    private CommandmentFragment commandmentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +24,7 @@ public class ExaminationActivity extends AppCompatActivity implements Commandmen
         if (savedInstanceState == null &&
                 findViewById(R.id.examinationContainer) != null) {
             // create Examination Fragment
-            commandmentFragment = new CommandmentFragment();
+            CommandmentFragment commandmentFragment = new CommandmentFragment();
 
             // add the fragment to the FrameLayout
             FragmentTransaction transaction =

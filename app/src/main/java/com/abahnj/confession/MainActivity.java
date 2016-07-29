@@ -44,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     public void confession(View view) {
         Intent intent = new Intent(this, ConfessionActivity.class);
+        startActivity(intent);
+    }
+
+    public void guide(View view) {
+        Intent intent = new Intent(this, GuideActivity.class);
         startActivity(intent);
     }
 }

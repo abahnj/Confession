@@ -55,4 +55,18 @@
             android:layout_height="wrap_content"
             android:text="@string/prayers"/>
     </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:elevation="@dimen/cardview_default_elevation"
+        app:cardCornerRadius="@dimen/cardview_default_radius"
+        android:layout_margin="@dimen/default_gap"
+        android:onClick="guide">
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/guide"/>
+    </android.support.v7.widget.CardView>
+
 </LinearLayout>

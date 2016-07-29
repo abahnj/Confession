@@ -8,7 +8,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import android.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +23,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
 
     private final String LOG_TAG = LoginActivity.class.getSimpleName();
     static final int PERSON_SAVED_REQUEST = 2;
-    private RecyclerView recyclerView;
     private static final int PERSON_LOADER = 0;// identifies Loader
     private PersonAdapter personAdapter; // adapter for recyclerView
 
@@ -86,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
 
         getLoaderManager().initLoader(PERSON_LOADER, null, this);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewL);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewL);
 
         // recyclerView should display items in a vertical list
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -161,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
 
         DialogFragment newFragment = new PasswordFragment();
         newFragment.setArguments(args);
-        newFragment.show(getSupportFragmentManager(), "password");
+        newFragment.show(getFragmentManager(), "password");
     }
 
 

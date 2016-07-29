@@ -1,14 +1,19 @@
 package com.abahnj.confession;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toolbar;
+
+import java.util.Random;
 
 public class ConfessionActivity extends Activity implements OnFragmentInteractionListener {
 
     private ConfessionFragment_1 confessionFragment;
+    public static final String PREFS_NAME = "MyPrefsFile";
 
 
     @Override
@@ -44,17 +49,36 @@ public class ConfessionActivity extends Activity implements OnFragmentInteractio
                 ConfessionFragment_3 confessionFragment3 = new ConfessionFragment_3();
                 displayFragment(confessionFragment3, R.id.confessionContainer);
                 break;
-            case 3:
-                ConfessionFragment_4 confessionFragment4 = new ConfessionFragment_4();
-                displayFragment(confessionFragment4, R.id.confessionContainer);
-                break;
-            case 4:
-
-                break;
             default:
                 break;
 
         }
+    }
+
+    @Override
+    public void onFinishButtonClicked() {
+
+        Random rand = new Random();
+        int max = 19;
+        int min = 1;
+        int inspirationID = rand.nextInt((max - min) + 1) + min;
+
+        Bundle args = new Bundle();
+        args.putInt(InspirationFragment.INSPIRATION_ID, inspirationID);
+
+        DialogFragment newFragment = new InspirationFragment();
+        newFragment.setArguments(args);
+        newFragment.show(getFragmentManager(), "inspiration");
+
+    }
+
+    @Override
+    public void onFragmentDismiss() {
+        SharedPreferences user = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = user.edit();
+        editor.putLong("lastConfession", System.currentTimeMillis());
+        editor.apply();
+        finish();
     }
 
     private void displayFragment(Fragment fragment, int viewID) {
