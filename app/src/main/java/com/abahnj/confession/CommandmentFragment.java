@@ -1,14 +1,14 @@
 package com.abahnj.confession;
 
+import android.app.Fragment;
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -76,7 +76,7 @@ public class CommandmentFragment extends Fragment implements LoaderManager.Loade
         commandmentAdapter = new CommandmentAdapter(new CommandmentAdapter.CommandmentClickListener() {
             @Override
             public void onClick(Uri examinationUri, int position) {
-                mListener.onCommandmentSelected(examinationUri);
+                mListener.onCommandmentSelected(examinationUri, true);
             }
         });
 
@@ -113,19 +113,21 @@ public class CommandmentFragment extends Fragment implements LoaderManager.Loade
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor data) {
         commandmentAdapter.swapCursor(data);
+
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(android.content.Loader<Cursor> loader) {
         commandmentAdapter.swapCursor(null);
     }
+
 
     // callback method implemented by ExaminationActivity
     public interface CommandmentFragmentListener {
         // called when contact selected
-        void onCommandmentSelected(Uri commandmentUri);
+        void onCommandmentSelected(Uri commandmentUri, Boolean addToBackStack);
 
     }
 

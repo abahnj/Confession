@@ -1,16 +1,21 @@
 package com.abahnj.confession;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Toast;
 
-public class ExaminationActivity extends AppCompatActivity implements CommandmentFragment.CommandmentFragmentListener, ExaminationFragment.OnFragmentInteractionListener{
+import com.abahnj.confession.data.ConfessionContract;
+
+public class ExaminationActivity extends AppCompatActivity implements CommandmentFragment.CommandmentFragmentListener, ExaminationFragment.OnFragmentInteractionListener {
 
     public static final String COMMANDMENT_URI = "commandment_uri";
+    private static final String PREFS_NAME = "MyPrefsFile";
+    private int vocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +25,8 @@ public class ExaminationActivity extends AppCompatActivity implements Commandmen
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        SharedPreferences user = getSharedPreferences(PREFS_NAME, 0);
+        vocation = user.getInt("vocation", 99);
 
         if (savedInstanceState == null &&
                 findViewById(R.id.examinationContainer) != null) {
@@ -28,18 +35,18 @@ public class ExaminationActivity extends AppCompatActivity implements Commandmen
 
             // add the fragment to the FrameLayout
             FragmentTransaction transaction =
-                    getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.examinationContainer, commandmentFragment);
+                    getFragmentManager().beginTransaction();
+            transaction.replace(R.id.examinationContainer, commandmentFragment);
             transaction.commit(); // display Examination Fragment
         }
 
     }
 
     @Override
-    public void onCommandmentSelected(Uri commandmentUri) {
+    public void onCommandmentSelected(Uri commandmentUri, Boolean addToBackStack) {
         Toast.makeText(this, commandmentUri.toString(), Toast.LENGTH_SHORT).show();
         if (findViewById(R.id.examinationContainer) != null) // phone
-            displayCommandment(commandmentUri, R.id.examinationContainer);
+            displayCommandment(commandmentUri, R.id.examinationContainer, addToBackStack);
         else { // tablet
             // removes top of back stack
             getSupportFragmentManager().popBackStack();
@@ -49,7 +56,8 @@ public class ExaminationActivity extends AppCompatActivity implements Commandmen
 
     }
 
-    private void displayCommandment(Uri commandmentUri, int viewID){
+    private void displayCommandment(Uri commandmentUri, int viewID, Boolean addToBackStack) {
+
         ExaminationFragment examinationFragment = new ExaminationFragment();
 
         int commandmentID = Integer.valueOf(commandmentUri.getLastPathSegment());
@@ -60,20 +68,51 @@ public class ExaminationActivity extends AppCompatActivity implements Commandmen
 
         // use a FragmentTransaction to display the DetailFragment
         FragmentTransaction transaction =
-                getSupportFragmentManager().beginTransaction();
+                getFragmentManager().beginTransaction();
+        transaction.addToBackStack("relevant");
+        if (!addToBackStack)
+            getFragmentManager().popBackStack("relevant", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
         transaction.replace(viewID, examinationFragment);
-        transaction.addToBackStack(null);
-        transaction.commit(); // causes DetailFragment to display
+        transaction.commit();
+        // causes DetailFragment to display
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-
-    public void switchFragment(View view) {
-
-
+    public void onFragmentInteraction(int num, int commandmentID) {
+        int newFragment;
+        if (vocation <= 1) {
+            switch (commandmentID) {
+                case (1):
+                    if (num >= 1)
+                        newFragment = (commandmentID % 10) + num;
+                    else
+                        newFragment = 10;
+                    break;
+                case (10):
+                    if (num < 1)
+                        newFragment = 9;
+                    else
+                        newFragment = (commandmentID % 10) + num;
+                    break;
+                default:
+                    newFragment = (commandmentID % 10) + num;
+                    break;
+            }
+        } else {
+            switch (commandmentID) {
+                case (15):
+                    if (num >= 1)
+                        newFragment = 11;
+                    else
+                        newFragment = (commandmentID % 10) + num + 10;
+                    break;
+                default:
+                    newFragment = (commandmentID % 10) + num + 10;
+                    break;
+            }
+        }
+        Uri commandmentUri = ConfessionContract.CommandmentEntry.buildCommandmentUri((long) newFragment);
+        onCommandmentSelected(commandmentUri, false);
     }
 }

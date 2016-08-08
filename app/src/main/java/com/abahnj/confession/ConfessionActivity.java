@@ -12,9 +12,8 @@ import java.util.Random;
 
 public class ConfessionActivity extends Activity implements OnFragmentInteractionListener {
 
-    private ConfessionFragment_1 confessionFragment;
     public static final String PREFS_NAME = "MyPrefsFile";
-
+    private ConfessionFragment_1 confessionFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +79,7 @@ public class ConfessionActivity extends Activity implements OnFragmentInteractio
         editor.apply();
         finish();
     }
+
 
     private void displayFragment(Fragment fragment, int viewID) {
 

@@ -1,15 +1,15 @@
 package com.abahnj.confession;
 
+import android.app.Fragment;
+import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,6 +34,8 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
     public static final String PREFS_NAME = "MyPrefsFile";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    public static final String COMMANDMENT_URI = "commandment_uri";
+
     private static final String ARG_PARAM1 = "param1";
     private static final int EXAMINATION_LOADER = 2;// identifies Loader
     private static final String[] EXAMINATION_COLUMNS = {
@@ -58,20 +60,6 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
     };
     public static int rowID;
     private static int position;
-    View.OnClickListener fragmentChange = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.nextFragment:
-                    Toast.makeText(getContext(), "Next Clicked", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.previousFragment:
-                    Toast.makeText(getContext(), "Previous Clicked", Toast.LENGTH_SHORT).show();
-                    break;
-            }
-
-        }
-    };
     private RecyclerView mRecyclerView;
     private String selection;
     private String[] selectionArgs;
@@ -80,34 +68,54 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
     private int commandmentID;
     private String mParam2;
     private OnFragmentInteractionListener mListener;
+    View.OnClickListener fragmentChange = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.nextFragment:
+                    Toast.makeText(getActivity(), "Next Clicked", Toast.LENGTH_SHORT).show();
+                    mListener.onFragmentInteraction(1, commandmentID);
+                    break;
+                case R.id.previousFragment:
+                    Toast.makeText(getActivity(), "Previous Clicked", Toast.LENGTH_SHORT).show();
+                    mListener.onFragmentInteraction(-1, commandmentID);
+                    break;
+            }
+
+        }
+    };
     private ExaminationAdapter examinationAdapter;
 
     public ExaminationFragment() {
         // Required empty public constructor
     }
 
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment ExaminationFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ExaminationFragment newInstance(String param1, String param2) {
-        ExaminationFragment fragment = new ExaminationFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        fragment.setArguments(args);
-        return fragment;
+    public static ExaminationFragment newInstance(int commandmentUri) {
+        ExaminationFragment examinationFragment = new ExaminationFragment();
+
+        //Integer.valueOf(commandmentUri.getLastPathSegment())
+
+        int commandmentID = commandmentUri;
+        // specify commandment's Uri as an argument to the ExaminationFragment
+        Bundle arguments = new Bundle();
+        arguments.putInt(COMMANDMENT_URI, commandmentID);
+        examinationFragment.setArguments(arguments);
+        return examinationFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences user = getContext().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences user = getActivity().getSharedPreferences(PREFS_NAME, 0);
         int vocation = user.getInt("vocation", 99);
         long dob = user.getLong("birthDate", 99);
         int sex = user.getInt("sex", 99);
@@ -158,15 +166,16 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
                 ExaminationFragment.rowID = rowID;
                 ExaminationFragment.position = position;
                 if (longClick) {
-                    Toast.makeText(getContext(), rowID + " long click", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), rowID + " long click", Toast.LENGTH_LONG).show();
                 } else {
                     mRecyclerView.showContextMenu();
                     updateCount(rowID, position, 1);
-                    Toast.makeText(getContext(), String.valueOf(rowID), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), String.valueOf(rowID), Toast.LENGTH_LONG).show();
                 }
             }
         });
         registerForContextMenu(mRecyclerView);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(examinationAdapter); // set the adapter
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -219,17 +228,11 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
 
         if (rowsUpdatedOrDeleted != 0) {
             getLoaderManager().restartLoader(EXAMINATION_LOADER, null, this);
-            mRecyclerView.getAdapter().notifyItemChanged(position);
+            mRecyclerView.getAdapter().notifyDataSetChanged();
         }
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -264,13 +267,15 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor data) {
         examinationAdapter.swapCursor(data);
+
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(android.content.Loader<Cursor> loader) {
         examinationAdapter.swapCursor(null);
+
     }
 
     @Override
@@ -280,10 +285,13 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
                 updateCount(rowID, position, -1);
                 break;
             case 2:
+                updateCount(rowID, position, 0);
                 break;
             case 3:
                 break;
             case 4:
+                break;
+            case 5:
                 break;
             default:
                 break;
@@ -323,6 +331,6 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(int num, int commandmentID);
     }
 }

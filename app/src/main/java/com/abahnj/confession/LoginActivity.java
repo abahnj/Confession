@@ -1,6 +1,7 @@
 package com.abahnj.confession;
 
 
+import android.app.DialogFragment;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -8,11 +9,9 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,12 +20,14 @@ import com.abahnj.confession.data.ConfessionContract.PersonEntry;
 public class LoginActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,
         PasswordFragment.PasswordDialogListener{
 
-    private final String LOG_TAG = LoginActivity.class.getSimpleName();
     static final int PERSON_SAVED_REQUEST = 2;
+    // These indices are tied to PERSON_COLUMNS.  If PERSON_COLUMNS changes, these
+    // must change.
+    static final int COL_PERSON_ID = 0;
+    static final int COL_PERSON_NAME = 1;
+    static final int COL_PERSON_PASSWORD = 2;
+    static final int COL_PASSWORD = 0;
     private static final int PERSON_LOADER = 0;// identifies Loader
-    private PersonAdapter personAdapter; // adapter for recyclerView
-
-
     private static final String[] PERSON_COLUMNS = {
             // In this case the id needs to be fully qualified with a table name, since
             // the content provider joins the location & weather tables in the background
@@ -39,13 +40,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             PersonEntry.COLUMN_PASSWORD
 
     };
-
-    // These indices are tied to PERSON_COLUMNS.  If PERSON_COLUMNS changes, these
-    // must change.
-    static final int COL_PERSON_ID = 0;
-    static final int COL_PERSON_NAME = 1;
-    static final int COL_PERSON_PASSWORD = 2;
-
     private static final String[] PASSWORD_COLUMNS = {
             // In this case the id needs to be fully qualified with a table name, since
             // the content provider joins the location & weather tables in the background
@@ -56,9 +50,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             PersonEntry.COLUMN_PASSWORD,
 
     };
-
-    static final int COL_PASSWORD = 0;
-
     private static final String[] USER_COLUMNS = {
             // In this case the id needs to be fully qualified with a table name, since
             // the content provider joins the location & weather tables in the background
@@ -75,13 +66,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             PersonEntry._ID
 
     };
+    private final String LOG_TAG = LoginActivity.class.getSimpleName();
+    private PersonAdapter personAdapter; // adapter for recyclerView
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         getLoaderManager().initLoader(PERSON_LOADER, null, this);
 
@@ -101,6 +92,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
                     }
                 }
         );
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
         recyclerView.setAdapter(personAdapter); // set the adapter
 
     }

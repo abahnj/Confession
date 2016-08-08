@@ -60,5 +60,14 @@
     <string name="response">If the priest says \"Give thanks to the Lord for He is good\" answer \"For His mercy endures forever.\"</string>
     <string name="guide">Guide</string>
     <string name="title_activity_guide">Confession Guide</string>
+    <string name="title_activity_examination2">ExaminationActivity2</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_examination_activity_switcher">Examination of Conscience</string>
+    <string name="create_user">Create User</string>
+    <string name="select_user">Select User</string>
+    <string name="dob_button">%1$d/%2$d/%3$d</string>
+    <string name="reset_count">Reset Count</string>
+
 
 </resources>

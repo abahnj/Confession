@@ -20,7 +20,7 @@ public class ExaminationAdapter extends RecyclerView.Adapter<ExaminationAdapter.
     private Cursor mCursor;
 
     public ExaminationAdapter (ExaminationClickListener clickListener){
-        this.clickListener = clickListener;
+        ExaminationAdapter.clickListener = clickListener;
     }
 
     @Override
@@ -97,9 +97,10 @@ public class ExaminationAdapter extends RecyclerView.Adapter<ExaminationAdapter.
                 @Override
                 public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
                     menu.add(0, 1, 0, R.string.context_menu_count);
-                    menu.add(0, 2, 0, R.string.context_menu_edit);
-                    menu.add(0, 3, 0, R.string.context_menu_delete);
-                    menu.add(0, 4, 0, R.string.context_menu_restore);
+                    menu.add(0, 2, 0, R.string.reset_count);
+                    menu.add(0, 3, 0, R.string.context_menu_edit);
+                    menu.add(0, 4, 0, R.string.context_menu_delete);
+                    menu.add(0, 5, 0, R.string.context_menu_restore);
 
                 }
             });

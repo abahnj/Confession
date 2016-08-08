@@ -21,21 +21,14 @@ private Cursor mCursor;
 
 
 public PersonAdapter(PersonClickListener clickListener) {
-        this.clickListener = clickListener;
+    PersonAdapter.clickListener = clickListener;
         }
-
-// interface implemented by LoginActivity to respond
-// when the user touches an item in the RecyclerView
-public interface PersonClickListener {
-    void onClick(Uri contactUri, int position);
-}
-
 
     @Override
     public PAViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // inflate the android.R.layout.simple_list_item_1 layout
         View view = LayoutInflater.from(parent.getContext()).inflate(
-                android.R.layout.simple_list_item_1, parent, false);
+                R.layout.recyclerview_login, parent, false);
         return new PAViewHolder(view); // return current item's ViewHolder
     }
 
@@ -56,6 +49,12 @@ public interface PersonClickListener {
     public void swapCursor(Cursor cursor) {
         mCursor = cursor;
         notifyDataSetChanged();
+    }
+
+    // interface implemented by LoginActivity to respond
+// when the user touches an item in the RecyclerView
+    public interface PersonClickListener {
+        void onClick(Uri contactUri, int position);
     }
 
 public class PAViewHolder extends RecyclerView.ViewHolder {
