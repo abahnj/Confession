@@ -1,14 +1,14 @@
 package com.abahnj.confession;
 
-import android.app.Fragment;
-import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -173,8 +173,9 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
                     Toast.makeText(getActivity(), String.valueOf(rowID), Toast.LENGTH_LONG).show();
                 }
             }
-        });
+        }, getActivity());
         registerForContextMenu(mRecyclerView);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(examinationAdapter); // set the adapter
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -267,13 +268,13 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
     }
 
     @Override
-    public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         examinationAdapter.swapCursor(data);
 
     }
 
     @Override
-    public void onLoaderReset(android.content.Loader<Cursor> loader) {
+    public void onLoaderReset(Loader<Cursor> loader) {
         examinationAdapter.swapCursor(null);
 
     }

@@ -32,7 +32,7 @@ public class CommandmentAdapter extends RecyclerView.Adapter<CommandmentAdapter.
     public CAViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             // inflate the android.R.layout.simple_list_item_1 layout
         View view = LayoutInflater.from(parent.getContext()).inflate(
-                android.R.layout.simple_list_item_2, parent, false);
+                R.layout.recyclerview_commandments, parent, false);
         return new CAViewHolder(view); // return current item's ViewHolder
         }
 
@@ -62,8 +62,8 @@ public class CommandmentAdapter extends RecyclerView.Adapter<CommandmentAdapter.
 
         public CAViewHolder(View itemView) {
             super(itemView);
-            mTextView1 = (TextView) itemView.findViewById(android.R.id.text1);
-            mTextView2 = (TextView) itemView.findViewById(android.R.id.text2);
+            mTextView1 = (TextView) itemView.findViewById(R.id.commandment_heading);
+            mTextView2 = (TextView) itemView.findViewById(R.id.commandment_subheading);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

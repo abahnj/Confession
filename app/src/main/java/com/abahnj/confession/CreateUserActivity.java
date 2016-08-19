@@ -3,6 +3,8 @@ package com.abahnj.confession;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -16,8 +18,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.abahnj.confession.data.ConfessionContract;
+import com.github.orangegangsters.lollipin.lib.managers.AppLock;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,6 +30,8 @@ import java.util.Locale;
 
 public class CreateUserActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CODE_ENABLE = 11;
+    private static String name;
     private static Long dob;
     private static Long lastConfession;
     final Calendar c = Calendar.getInstance();
@@ -34,8 +40,9 @@ public class CreateUserActivity extends AppCompatActivity {
     int day = c.get(Calendar.DAY_OF_MONTH);
     // EditTexts for contact information
     private TextInputLayout nameTextInputLayout;
-    private TextInputLayout passwordTextInputLayout;
     private TextView dob_tv;
+    public static final String PREFS_NAME = "MyPrefsFile";
+
     DatePickerDialog.OnDateSetListener dobL = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             Calendar c = new GregorianCalendar(year, month, day);
@@ -125,9 +132,6 @@ public class CreateUserActivity extends AppCompatActivity {
         nameTextInputLayout =
                 (TextInputLayout) findViewById(R.id.name_editTextView);
         //nameTextInputLayout.addTextChangedListener(nameChangedListener);
-        passwordTextInputLayout =
-                (TextInputLayout) findViewById(R.id.password_editTextView);
-
 
         // set FloatingActionButton's event listener
         Button savePersonButton = (Button) findViewById(
@@ -138,10 +142,10 @@ public class CreateUserActivity extends AppCompatActivity {
 
     // saves contact information to the database
     private void savePerson() {
+        name = nameTextInputLayout.getEditText().getText().toString();
         // create ContentValues object containing contact's key-value pairs
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ConfessionContract.PersonEntry.COLUMN_NAME, nameTextInputLayout.getEditText().getText().toString());
-        contentValues.put(ConfessionContract.PersonEntry.COLUMN_PASSWORD, passwordTextInputLayout.getEditText().getText().toString());
+        contentValues.put(ConfessionContract.PersonEntry.COLUMN_NAME, name);
         contentValues.put(ConfessionContract.PersonEntry.COLUMN_BIRTHDATE, dob);
         contentValues.put(ConfessionContract.PersonEntry.COLUMN_LASTCONFESSION, lastConfession);
         contentValues.put(ConfessionContract.PersonEntry.COLUMN_MARRIED, vocation);
@@ -152,10 +156,25 @@ public class CreateUserActivity extends AppCompatActivity {
         // insert on the AddressBookContentProvider
         Uri newPersonUri = getContentResolver().insert(ConfessionContract.PersonEntry.CONTENT_URI, contentValues);
 
-        if (newPersonUri != null) {
+        if (newPersonUri != null && validate()) {
             setResult(RESULT_OK);
+            SharedPreferences user = getSharedPreferences(PREFS_NAME, 0);
+            SharedPreferences.Editor editor = user.edit();
+            editor.putString("username", name );
+            editor.putInt("sex", sex) ;
+            editor.putInt("vocation", vocation);
+            editor.putInt("actOfContrition", 2);
+            editor.putLong("birthDate", dob);
+            editor.putLong("lastConfession", lastConfession);
+            editor.putInt("id", Integer.valueOf(newPersonUri.getLastPathSegment()));
+            editor.apply();
+
+            Intent intent = new Intent(this, ConfessionPinActivity.class);
+            intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
+            startActivityForResult(intent, REQUEST_CODE_ENABLE);
+
         }
-        finish();
+
     }
 
 
@@ -174,7 +193,6 @@ public class CreateUserActivity extends AppCompatActivity {
         boolean valid = true;
 
         String name = nameTextInputLayout.getEditText().getText().toString();
-        String password = passwordTextInputLayout.getEditText().getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
             nameTextInputLayout.setError("at least 3 characters");
@@ -184,13 +202,20 @@ public class CreateUserActivity extends AppCompatActivity {
         }
 
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            passwordTextInputLayout.setError("between 4 and 10 alphanumeric characters");
-            valid = false;
-        } else {
-            passwordTextInputLayout.setError(null);
-        }
-
         return valid;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case REQUEST_CODE_ENABLE:
+                Toast.makeText(this, "PinCode enabled", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+        }
     }
 }

@@ -1,10 +1,11 @@
 package com.abahnj.confession;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.widget.Toolbar;
 
-public class GuideActivity extends Activity {
+import com.github.orangegangsters.lollipin.lib.PinActivity;
+
+public class GuideActivity extends PinActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,17 +1,17 @@
 package com.abahnj.confession;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.abahnj.confession.data.ConfessionContract;
+import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 
-public class ExaminationActivity extends AppCompatActivity implements CommandmentFragment.CommandmentFragmentListener, ExaminationFragment.OnFragmentInteractionListener {
+public class ExaminationActivity extends PinCompatActivity implements CommandmentFragment.CommandmentFragmentListener, ExaminationFragment.OnFragmentInteractionListener {
 
     public static final String COMMANDMENT_URI = "commandment_uri";
     private static final String PREFS_NAME = "MyPrefsFile";
@@ -35,7 +35,7 @@ public class ExaminationActivity extends AppCompatActivity implements Commandmen
 
             // add the fragment to the FrameLayout
             FragmentTransaction transaction =
-                    getFragmentManager().beginTransaction();
+                    getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.examinationContainer, commandmentFragment);
             transaction.commit(); // display Examination Fragment
         }
@@ -68,10 +68,10 @@ public class ExaminationActivity extends AppCompatActivity implements Commandmen
 
         // use a FragmentTransaction to display the DetailFragment
         FragmentTransaction transaction =
-                getFragmentManager().beginTransaction();
+                getSupportFragmentManager().beginTransaction();
         transaction.addToBackStack("relevant");
         if (!addToBackStack)
-            getFragmentManager().popBackStack("relevant", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            getSupportFragmentManager().popBackStack("relevant", FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
         transaction.replace(viewID, examinationFragment);
         transaction.commit();

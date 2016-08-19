@@ -68,6 +68,17 @@
     <string name="select_user">Select User</string>
     <string name="dob_button">%1$d/%2$d/%3$d</string>
     <string name="reset_count">Reset Count</string>
+    <string name="slide_input_checkbox">Check Something</string>
+    <string name="slide_input_edittext">Type Something here</string>
+    <string name="slide_input_title">Slide: Input Demo</string>
+    <string name="slide_input_description">This slide demonstrates how input is saved over orientation and slide changes</string>
+    <string name="here_are_my_sins">Here are my sins</string>
+    <string name="act_of_contrition">Act of Contrition</string>
+    <string name="faq">FAQ</string>
+    <string name="as_said_by_popes">... As said by Popes</string>
+    <string name="extracts_fulton_sheen">Extracts from Frequent Confession (Fulton Sheen)</string>
+    <string name="catechism_of_the_catholic_church">Catechism of the Catholic Church</string>
+    <string name="how_to_make_a_good_confession">How to Make a Good Confession</string>
 
 
 </resources>

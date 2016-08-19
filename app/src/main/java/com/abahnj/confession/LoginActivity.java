@@ -9,15 +9,15 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
 import com.abahnj.confession.data.ConfessionContract.PersonEntry;
+import com.github.orangegangsters.lollipin.lib.PinActivity;
 
-public class LoginActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>,
+public class LoginActivity extends PinActivity implements LoaderManager.LoaderCallbacks<Cursor>,
         PasswordFragment.PasswordDialogListener{
 
     static final int PERSON_SAVED_REQUEST = 2;

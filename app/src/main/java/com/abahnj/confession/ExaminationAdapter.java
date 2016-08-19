@@ -1,6 +1,9 @@
 package com.abahnj.confession;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -18,9 +21,12 @@ import com.abahnj.confession.data.ConfessionContract.SinEntry;
 public class ExaminationAdapter extends RecyclerView.Adapter<ExaminationAdapter.EAViewHolder> {
     private static ExaminationClickListener clickListener;
     private Cursor mCursor;
+    private Context context;
 
-    public ExaminationAdapter (ExaminationClickListener clickListener){
+
+    public ExaminationAdapter (ExaminationClickListener clickListener, Context activity){
         ExaminationAdapter.clickListener = clickListener;
+        context = activity;
     }
 
     @Override
@@ -33,10 +39,25 @@ public class ExaminationAdapter extends RecyclerView.Adapter<ExaminationAdapter.
 
     @Override
     public void onBindViewHolder(EAViewHolder holder, int position) {
+        Resources res = context.getResources();
+        int colorBlue;
+        int colorWhite;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            colorBlue = res.getColor(android.R.color.holo_blue_light, null);
+            colorWhite = res.getColor(android.R.color.white, null);
+        } else {
+            colorBlue = res.getColor(android.R.color.holo_blue_light);
+            colorWhite = res.getColor(android.R.color.white);
+
+        }
         mCursor.moveToPosition(position);
         holder.setRowID(mCursor.getLong(mCursor.getColumnIndex(SinEntry._ID)));
         holder.mTextView1.setText(mCursor.getString(mCursor.getColumnIndex(SinEntry.COLUMN_DESCRIPTION)));
         final int count = mCursor.getInt(mCursor.getColumnIndex(ConfessionContract.PersonToSinEntry.COLUMN_COUNT));
+        if(count != 0){
+            holder.mTextView2.setBackgroundColor(colorBlue);
+            holder.mTextView2.setTextColor(colorWhite);
+        }
         holder.mTextView2.setText(String.valueOf(count));
         holder.setPosition(position);
 

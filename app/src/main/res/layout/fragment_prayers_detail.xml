@@ -1,13 +1,50 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.abahnj.confession.PrayersDetailFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/grey"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".PrayersDetailFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/FPD_TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <!-- TODO: Update blank fragment layout -->
+        <android.support.v7.widget.CardView
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:cardElevation="@dimen/cardview_default_elevation"
+            app:cardCornerRadius = "4dp">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:padding="16dp"
+                        android:id="@+id/FPD_HeadingTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        tools:text="Default Act of Contrition"/>
+                    <TextView
+                        android:textAlignment="center"
+                        android:lineSpacingMultiplier="1.5"
+                        android:fontFamily="sans-serif"
+                        android:textSize="16sp"
+                        android:padding="16dp"
+                        android:id="@+id/FPD_TextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="O my God, I am heartily sorry for having offended Thee, and I detest all my sins because of Thy just punishments, but most of all because they offend Thee, my God, Who art all-good and deserving of all my love. I firmly resolve, with the help of Thy grace, to sin no more and to avoid the near occasions of sin."/>
+                </LinearLayout>
 
-</ScrollView>
+            </ScrollView>
+
+        </android.support.v7.widget.CardView>
+
+</LinearLayout>

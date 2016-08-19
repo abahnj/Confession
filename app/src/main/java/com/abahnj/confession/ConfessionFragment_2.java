@@ -1,13 +1,13 @@
 package com.abahnj.confession;
 
-import android.app.Fragment;
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,7 +38,6 @@ public class ConfessionFragment_2 extends Fragment implements LoaderManager.Load
             ConfessionContract.PersonToSinEntry.TABLE_NAME + "." + ConfessionContract.PersonToSinEntry.COLUMN_COUNT
 
     };
-    private RecyclerView mRecyclerView;
     private String selection;
     private String[] selectionArgs;
     private ConfessionAdapter confessionAdapter;
@@ -79,12 +78,13 @@ public class ConfessionFragment_2 extends Fragment implements LoaderManager.Load
                 mListener.onFragmentInteraction(FRAGMENT_TAG);
             }
         });
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewS);
+        RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewS);
         mRecyclerView.setHasFixedSize(true);
 
         confessionAdapter = new ConfessionAdapter();
         mRecyclerView.setAdapter(confessionAdapter); // set the adapter
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL ));
         return rootView;
     }
 

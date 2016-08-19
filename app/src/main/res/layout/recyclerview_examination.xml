@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/touch_selector"
+    android:padding="16dp"
     android:clickable="true"
     android:focusable="true"
     android:orientation="horizontal"
-    android:padding="16dp">
+     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/txtCorE"
@@ -14,23 +15,26 @@
         android:layout_height="13dp"
         android:textColor="@color/red"
         android:textSize="12sp"
-        />
+        tools:text="c"/>
     <TextView
+        android:fontFamily="sans-serif"
         android:id="@+id/txtSin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="9"
         android:textSize="16sp"
+        tools:text="Do I not give God time everyday in prayer"
         />
     <TextView
+        android:layout_margin="4dp"
+        android:minHeight="24dp"
         android:id="@+id/txtSinCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:layout_weight="1"
-        android:background="@color/red"
-        android:textColor="@color/white"
         android:textSize="16sp"
-        />
+        tools:text="2"/>
 </LinearLayout>

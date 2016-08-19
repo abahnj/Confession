@@ -20,10 +20,11 @@ public class PrayersDetailFragment extends Fragment {
 
     private static final String PRAYERS_URI = "prayers_uri";
     private static final String[] PRAYERS_COLUMNS = {
-            ConfessionContract.PrayersEntry.COLUMN_PRAYERTEXT
+            ConfessionContract.PrayersEntry.COLUMN_PRAYERTEXT,
+            ConfessionContract.PrayersEntry.COLUMN_PRAYERNAME
     };
     private int prayersID;
-    private TextView prayerTextView;
+
     public PrayersDetailFragment() {
         // Required empty public constructor
     }
@@ -34,7 +35,8 @@ public class PrayersDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_prayers_detail, container, false);
 
-        prayerTextView = (TextView) rootView.findViewById(R.id.FPD_TextView);
+        TextView prayerTextViewHeading = (TextView) rootView.findViewById(R.id.FPD_HeadingTextView);
+        TextView prayerTextView = (TextView) rootView.findViewById(R.id.FPD_TextView);
         // Inflate the layout for this fragment
         Cursor cursor = getContext().getContentResolver().query(ConfessionContract.PrayersEntry.CONTENT_URI,
                 PRAYERS_COLUMNS,
@@ -44,8 +46,10 @@ public class PrayersDetailFragment extends Fragment {
         if (cursor != null) {
             cursor.moveToFirst();
             String prayerText = cursor.getString(cursor.getColumnIndex(ConfessionContract.PrayersEntry.COLUMN_PRAYERTEXT));
+            String prayerTextHeading = cursor.getString(cursor.getColumnIndex(ConfessionContract.PrayersEntry.COLUMN_PRAYERNAME));
             cursor.close();
             prayerTextView.setText(prayerText);
+            prayerTextViewHeading.setText(prayerTextHeading);
 
         }
 

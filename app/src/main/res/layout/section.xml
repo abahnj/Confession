@@ -6,7 +6,7 @@
     android:layout_height="48dp"
     android:background="@android:color/transparent"
     android:gravity="center"
-    android:paddingLeft="16dp"
+    android:paddingStart="16dp"
     android:singleLine="true"
     android:textAllCaps="true"
     android:textColor="@color/colorPrimary"

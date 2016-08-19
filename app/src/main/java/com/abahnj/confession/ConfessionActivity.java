@@ -1,16 +1,17 @@
 package com.abahnj.confession;
 
-import android.app.Activity;
 import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.widget.Toolbar;
+
+import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 
 import java.util.Random;
 
-public class ConfessionActivity extends Activity implements OnFragmentInteractionListener {
+public class ConfessionActivity extends PinCompatActivity implements OnFragmentInteractionListener {
 
     public static final String PREFS_NAME = "MyPrefsFile";
     private ConfessionFragment_1 confessionFragment;
@@ -31,7 +32,7 @@ public class ConfessionActivity extends Activity implements OnFragmentInteractio
 
             // add the fragment to the FrameLayout
             FragmentTransaction transaction =
-                    getFragmentManager().beginTransaction();
+                    getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.confessionContainer, confessionFragment);
             transaction.commit(); // display Confession Fragment
         }
@@ -85,7 +86,7 @@ public class ConfessionActivity extends Activity implements OnFragmentInteractio
 
         // use a FragmentTransaction to display the DetailFragment
         FragmentTransaction transaction =
-                getFragmentManager().beginTransaction();
+                getSupportFragmentManager().beginTransaction();
         transaction.replace(viewID, fragment);
         transaction.addToBackStack(null);
         transaction.commit(); // causes DetailFragment to display

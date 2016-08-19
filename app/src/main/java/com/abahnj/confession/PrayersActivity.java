@@ -3,11 +3,12 @@ package com.abahnj.confession;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
-public class PrayersActivity extends AppCompatActivity implements PrayersFragment.PrayersFragmentListener {
+import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
+
+public class PrayersActivity extends PinCompatActivity implements PrayersFragment.PrayersFragmentListener {
 
     public static final String PRAYERS_URI = "prayers_uri";
     private PrayersFragment prayersFragment;
