@@ -4,6 +4,7 @@ package com.abahnj.confession;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +53,8 @@ public class PrayersDetailFragment extends Fragment {
             prayerTextViewHeading.setText(prayerTextHeading);
 
         }
-
+        AppBarLayout toolbar = (AppBarLayout) getActivity().findViewById(R.id.appbar);  // or however you need to do it for your code
+        toolbar.setExpanded(false);
         return rootView;
 
     }

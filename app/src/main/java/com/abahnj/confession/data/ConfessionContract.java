@@ -16,9 +16,12 @@ public class ConfessionContract {
     public static final String PATH_PERSON = "PERSON";
     public static final String PATH_COMMANDMENTS = "COMMANDMENTS";
     public static final String PATH_SIN = "SIN";
+    public static final String PATH_SIN_ACTIVE = "SIN_ACTIVE";
     public static final String PATH_PERSON_2_SIN = "PERSON_2_SIN";
     public static final String PATH_PRAYERS = "PRAYERS";
     public static final String PATH_INSPIRATION = "INSPIRATION";
+    public static final String PATH_GUIDE = "guide_main";
+
     // base URI used to interact with the ContentProvider
     private static final Uri BASE_CONTENT_URI =
             Uri.parse("content://" + CONTENT_AUTHORITY);
@@ -113,6 +116,37 @@ public class ConfessionContract {
         }
     }
 
+    public static final class SinActiveEntry implements BaseColumns{
+        public static final String TABLE_NAME = "SIN_ACTIVE";
+
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
+                .appendPath(PATH_SIN_ACTIVE)
+                .build();
+
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_SIN;
+
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_SIN;
+
+
+        public static final String COLUMN_COMMANDMENT_ID = "COMMANDMENT_ID";
+        public static final String COLUMN_ADULT = "ADULT";
+        public static final String COLUMN_SINGLE = "SINGLE";
+        public static final String COLUMN_MARRIED = "MARRIED";
+        public static final String COLUMN_RELIGIOUS = "RELIGIOUS";
+        public static final String COLUMN_PRIEST = "PRIEST";
+        public static final String COLUMN_TEEN = "TEEN";
+        public static final String COLUMN_FEMALE = "FEMALE";
+        public static final String COLUMN_MALE = "MALE";
+        public static final String COLUMN_CHILD = "CHILD";
+        public static final String COLUMN_CUSTOM_ID = "CUSTOM_ID";
+        public static final String COLUMN_DESCRIPTION = "DESCRIPTION";
+
+        // creates a Uri for a specific person
+        public static Uri buildSinUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+    }
+
     public static final class PersonToSinEntry implements BaseColumns{
         public static final String TABLE_NAME = "PERSON_2_SIN";
 
@@ -160,6 +194,21 @@ public class ConfessionContract {
 
         public static final String COLUMN_QUOTE = "QUOTE";
         public static final String COLUMN_AUTHOR = "AUTHOR";
+
+    }
+
+    public static final class GuideEntry implements BaseColumns{
+        public static final String TABLE_NAME = "guide_main";
+
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
+                .appendPath(PATH_GUIDE)
+                .build();
+
+        public static final String COLUMN_HEADER_ID ="h_id";
+        public static final String COLUMN_GUIDE_ID="g_id";
+        public static final String COLUMN_GUIDE_TITLE="g_title";
+        public static final String COLUMN_GUIDE_TEXT="text";
+        public static final String COLUMN_IMG_NAME="img_name";
 
     }
 

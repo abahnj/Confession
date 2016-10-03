@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -100,6 +101,13 @@ public class PrayersFragment extends Fragment implements LoaderManager.LoaderCal
         //getLoaderManager().initLoader(PRAYERS_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppBarLayout toolbar = (AppBarLayout) getActivity().findViewById(R.id.appbar);  // or however you need to do it for your code
+        toolbar.setExpanded(true);
     }
 
     @Override

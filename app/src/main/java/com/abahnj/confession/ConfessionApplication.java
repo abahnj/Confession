@@ -18,5 +18,6 @@ public class ConfessionApplication extends Application {
         lockManager.getAppLock().setLogoId(R.drawable.logo_pd);
         lockManager.getAppLock().setShouldShowForgot(false);
         lockManager.getAppLock().setOnlyBackgroundTimeout(true);
+        lockManager.getAppLock().setTimeout(1000 * 60 * 5);
     }
 }

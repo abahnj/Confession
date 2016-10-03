@@ -1,7 +1,6 @@
 package com.abahnj.confession;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.abahnj.confession.data.ConfessionContract.SinEntry;
 
@@ -13,7 +12,6 @@ import java.util.Calendar;
 public class Utility {
 
     private static final int SUCCESS_RETURN_CODE = 1;
-    private static final String PREFS_NAME = "MyPrefsFile";
 
     public static String calculateAgeBracket(Long birthDate) {
 
@@ -91,19 +89,30 @@ public class Utility {
         }
     }
 
-    public static int numFragment(Context context) {
-        SharedPreferences user = context.getSharedPreferences(PREFS_NAME, 0);
-        int vocation = user.getInt("vocation", 99);
-        int numFragment;
 
-        if (vocation <= 1) {
-            numFragment = 10;
-        } else {
-            numFragment = 15;
+    public static long setAge(int position) {
+        long age;
+        Calendar calendar = Calendar.getInstance();
+        long child_limit = calendar.getTimeInMillis();
+        calendar.add(Calendar.YEAR, -13);
+        long teen_limit = calendar.getTimeInMillis();
+        calendar.add(Calendar.YEAR, -5);
+        long adult_limit = calendar.getTimeInMillis();
+
+        switch (position){
+            case 0:
+                age = adult_limit;
+                break;
+            case 1:
+                age = teen_limit;
+                break;
+            default:
+                age = child_limit;
+                break;
         }
-        return numFragment;
-    }
 
+    return age;
+    }
 }
 
 

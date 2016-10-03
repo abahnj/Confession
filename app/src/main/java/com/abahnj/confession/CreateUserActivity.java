@@ -7,18 +7,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
+import android.preference.PreferenceManager;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.abahnj.confession.data.ConfessionContract;
 import com.github.orangegangsters.lollipin.lib.managers.AppLock;
@@ -31,26 +35,17 @@ import java.util.Locale;
 public class CreateUserActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_ENABLE = 11;
-    private static String name;
     private static Long dob;
     private static Long lastConfession;
+    private static int id;
     final Calendar c = Calendar.getInstance();
     int year = c.get(Calendar.YEAR);
     int month = c.get(Calendar.MONTH);
     int day = c.get(Calendar.DAY_OF_MONTH);
-    // EditTexts for contact information
-    private TextInputLayout nameTextInputLayout;
-    private TextView dob_tv;
+    private CoordinatorLayout coordinatorLayout;
     public static final String PREFS_NAME = "MyPrefsFile";
 
-    DatePickerDialog.OnDateSetListener dobL = new DatePickerDialog.OnDateSetListener() {
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            Calendar c = new GregorianCalendar(year, month, day);
-            dob = c.getTimeInMillis();
-            SimpleDateFormat dateInstance = new SimpleDateFormat("d'th' MMM yyyy", Locale.getDefault());
-            dob_tv.setText(dateInstance.format(dob));
-        }
-    };
+
     private TextView lc_tv;
     DatePickerDialog.OnDateSetListener lcL = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -74,6 +69,80 @@ public class CreateUserActivity extends AppCompatActivity {
 
         }
     };
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create_user);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
+        setSupportActionBar(toolbar);
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if(getIntent()!= null ){
+            Intent intent = getIntent();
+            String title;
+            if(intent.hasExtra("settings")) {
+                title = intent.getStringExtra("settings");
+                getSupportActionBar().setTitle(title);
+                CoordinatorLayout.LayoutParams params =
+                        (CoordinatorLayout.LayoutParams) frameLayout.getLayoutParams();
+                params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+                frameLayout.requestLayout();
+            }else {
+                toolbar.setVisibility(View.GONE);
+            }
+
+        }
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+
+        SharedPreferences userId = getSharedPreferences(PREFS_NAME, 0);
+        id = userId.getInt("id", 99);
+
+
+        Spinner sexSpinner = (Spinner) findViewById(R.id.sex_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(this,
+                R.array.sex_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        sexSpinner.setAdapter(sexAdapter);
+        sexSpinner.setOnItemSelectedListener(VS);
+
+        Spinner ageSpinner = (Spinner) findViewById(R.id.age_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this,
+                R.array.age_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        ageSpinner.setAdapter(ageAdapter);
+        ageSpinner.setOnItemSelectedListener(VS);
+
+        Spinner vocationSpinner = (Spinner) findViewById(R.id.vocation_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> vocationAdapter = ArrayAdapter.createFromResource(this,
+                R.array.vocation_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        vocationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        vocationSpinner.setAdapter(vocationAdapter);
+        vocationSpinner.setOnItemSelectedListener(VS);
+
+        lc_tv = (TextView) findViewById(R.id.last_confession_button);
+
+
+        // set FloatingActionButton's event listener
+        Button savePersonButton = (Button) findViewById(
+                R.id.save_user_button);
+        savePersonButton.setOnClickListener(BC);
+
+    }
+
     AdapterView.OnItemSelectedListener VS = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -83,6 +152,9 @@ public class CreateUserActivity extends AppCompatActivity {
                     break;
                 case R.id.vocation_spinner:
                     vocation = position;
+                    break;
+                case R.id.age_spinner:
+                    dob = Utility.setAge(position);
                     break;
                 default:
                     break;
@@ -96,92 +168,69 @@ public class CreateUserActivity extends AppCompatActivity {
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_user);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null)
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Spinner sexSpinner = (Spinner) findViewById(R.id.sex_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> sexAdapter = ArrayAdapter.createFromResource(this,
-                R.array.sex_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        sexAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        sexSpinner.setAdapter(sexAdapter);
-        sexSpinner.setOnItemSelectedListener(VS);
-
-
-        Spinner vocationSpinner = (Spinner) findViewById(R.id.vocation_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> vocationAdapter = ArrayAdapter.createFromResource(this,
-                R.array.vocation_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        vocationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        vocationSpinner.setAdapter(vocationAdapter);
-        vocationSpinner.setOnItemSelectedListener(VS);
-
-        dob_tv = (TextView) findViewById(R.id.dob_button);
-        lc_tv = (TextView) findViewById(R.id.last_confession_button);
-
-        nameTextInputLayout =
-                (TextInputLayout) findViewById(R.id.name_editTextView);
-        //nameTextInputLayout.addTextChangedListener(nameChangedListener);
-
-        // set FloatingActionButton's event listener
-        Button savePersonButton = (Button) findViewById(
-                R.id.save_user_button);
-        savePersonButton.setOnClickListener(BC);
-
-    }
 
     // saves contact information to the database
     private void savePerson() {
-        name = nameTextInputLayout.getEditText().getText().toString();
+
+        SharedPreferences user = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = user.edit();
+
         // create ContentValues object containing contact's key-value pairs
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ConfessionContract.PersonEntry.COLUMN_NAME, name);
         contentValues.put(ConfessionContract.PersonEntry.COLUMN_BIRTHDATE, dob);
         contentValues.put(ConfessionContract.PersonEntry.COLUMN_LASTCONFESSION, lastConfession);
         contentValues.put(ConfessionContract.PersonEntry.COLUMN_MARRIED, vocation);
         contentValues.put(ConfessionContract.PersonEntry.COLUMN_SEX, sex);
         contentValues.put(ConfessionContract.PersonEntry.COLUMN_ACTOFCONTRITION, 2);
 
-        // use Activity's ContentResolver to invoke
-        // insert on the AddressBookContentProvider
-        Uri newPersonUri = getContentResolver().insert(ConfessionContract.PersonEntry.CONTENT_URI, contentValues);
+        if (id != 99) {
 
-        if (newPersonUri != null && validate()) {
-            setResult(RESULT_OK);
-            SharedPreferences user = getSharedPreferences(PREFS_NAME, 0);
-            SharedPreferences.Editor editor = user.edit();
-            editor.putString("username", name );
-            editor.putInt("sex", sex) ;
-            editor.putInt("vocation", vocation);
-            editor.putInt("actOfContrition", 2);
-            editor.putLong("birthDate", dob);
-            editor.putLong("lastConfession", lastConfession);
-            editor.putInt("id", Integer.valueOf(newPersonUri.getLastPathSegment()));
-            editor.apply();
+            int updateId = getContentResolver().update(ConfessionContract.PersonEntry.buildPersonUri(id),
+                    contentValues, null, null);
+            if (updateId != 0){
+                editor.putInt("sex", sex);
+                editor.putInt("vocation", vocation);
+                editor.putInt("actOfContrition", 2);
+                editor.putLong("birthDate", dob);
+                editor.putLong("lastConfession", lastConfession);
+                editor.apply();
+                finish();
+            }
+        } else {
+            // use Activity's ContentResolver to invoke
+            // insert on the AddressBookContentProvider
+            Uri newPersonUri = getContentResolver().insert(ConfessionContract.PersonEntry.CONTENT_URI, contentValues);
 
-            Intent intent = new Intent(this, ConfessionPinActivity.class);
-            intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
-            startActivityForResult(intent, REQUEST_CODE_ENABLE);
+            if (newPersonUri != null) {
+                editor.putInt("sex", sex);
+                editor.putInt("vocation", vocation);
+                editor.putInt("actOfContrition", 2);
+                editor.putLong("birthDate", dob);
+                editor.putLong("lastConfession", lastConfession);
+                editor.putInt("id", Integer.valueOf(newPersonUri.getLastPathSegment()));
+                editor.apply();
 
+                Intent intent = new Intent(this, ConfessionPinActivity.class);
+                intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
+                startActivityForResult(intent, REQUEST_CODE_ENABLE);
+            }
         }
 
     }
 
+    public void setPrefs(){
+        SharedPreferences getPrefs = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
+        //  Make a new preferences editor
+        SharedPreferences.Editor e = getPrefs.edit();
 
-    public void showDateDob(View view) {
-        new DatePickerDialog(this, dobL, year, month, day)
-                .show();
+        //  Edit preference to make it false because we don't want this to run again
+        e.putBoolean("firstStart", false);
+
+        //  Apply changes
+        e.apply();
     }
+
 
     public void showDateLC(View view) {
         new DatePickerDialog(this, lcL, year, month, day)
@@ -189,21 +238,6 @@ public class CreateUserActivity extends AppCompatActivity {
 
     }
 
-    public boolean validate() {
-        boolean valid = true;
-
-        String name = nameTextInputLayout.getEditText().getText().toString();
-
-        if (name.isEmpty() || name.length() < 3) {
-            nameTextInputLayout.setError("at least 3 characters");
-            valid = false;
-        } else {
-            nameTextInputLayout.setError(null);
-        }
-
-
-        return valid;
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -211,10 +245,10 @@ public class CreateUserActivity extends AppCompatActivity {
 
         switch (requestCode){
             case REQUEST_CODE_ENABLE:
-                Toast.makeText(this, "PinCode enabled", Toast.LENGTH_SHORT).show();
+                setPrefs();
+                Snackbar.make(coordinatorLayout, "PinCode enabled", Snackbar.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
-                finish();
                 break;
         }
     }

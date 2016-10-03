@@ -79,6 +79,16 @@
     <string name="extracts_fulton_sheen">Extracts from Frequent Confession (Fulton Sheen)</string>
     <string name="catechism_of_the_catholic_church">Catechism of the Catholic Church</string>
     <string name="how_to_make_a_good_confession">How to Make a Good Confession</string>
+    <string name="adult">Adult</string>
+    <string name="teen">Teen</string>
+    <string name="child">Child</string>
 
 
+    <string name="menu_night_mode">Night mode</string>
+    <string name="menu_night_mode_system">Follow system</string>
+    <string name="menu_night_mode_day">Day (always)</string>
+    <string name="menu_night_mode_night">Night (always)</string>
+    <string name="menu_night_mode_auto">Auto</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="age">Age</string>
 </resources>

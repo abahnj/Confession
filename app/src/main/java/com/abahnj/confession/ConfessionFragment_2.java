@@ -32,8 +32,8 @@ public class ConfessionFragment_2 extends Fragment implements LoaderManager.Load
             // On the one hand, that's annoying.  On the other, you can search the weather table
             // using the location set by the user, which is only in the Location table.
             // So the convenience is worth it.
-            ConfessionContract.SinEntry.TABLE_NAME + "." + ConfessionContract.SinEntry._ID,
-            ConfessionContract.SinEntry.TABLE_NAME + "." + ConfessionContract.SinEntry.COLUMN_DESCRIPTION,
+            ConfessionContract.SinActiveEntry.TABLE_NAME + "." + ConfessionContract.SinActiveEntry._ID,
+            ConfessionContract.SinActiveEntry.TABLE_NAME + "." + ConfessionContract.SinActiveEntry.COLUMN_DESCRIPTION,
             ConfessionContract.PersonToSinEntry.TABLE_NAME + "." + ConfessionContract.PersonToSinEntry.COLUMN_PERSON_ID,
             ConfessionContract.PersonToSinEntry.TABLE_NAME + "." + ConfessionContract.PersonToSinEntry.COLUMN_COUNT
 
@@ -91,10 +91,10 @@ public class ConfessionFragment_2 extends Fragment implements LoaderManager.Load
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         CursorLoader cursorLoader;
-        String sortOrder = ConfessionContract.SinEntry._ID + " COLLATE NOCASE ASC";
+        String sortOrder = ConfessionContract.SinActiveEntry._ID + " COLLATE NOCASE ASC";
 
         cursorLoader = new CursorLoader(getActivity(),
-                ConfessionContract.SinEntry.CONTENT_URI, // Uri of sins table
+                ConfessionContract.SinActiveEntry.CONTENT_URI, // Uri of sins table
                 CONFESSION_COLUMNS, // null projection returns all columns
                 selection, // null selection returns all rows
                 selectionArgs, // no selection arguments

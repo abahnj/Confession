@@ -15,14 +15,13 @@ import com.abahnj.confession.data.ConfessionContract.PersonEntry;
  */
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PAViewHolder> {
 
-private static PersonClickListener clickListener;
-private Cursor mCursor;
+    private static PersonClickListener clickListener;
+    private Cursor mCursor;
 
 
-
-public PersonAdapter(PersonClickListener clickListener) {
-    PersonAdapter.clickListener = clickListener;
-        }
+    public PersonAdapter(PersonClickListener clickListener) {
+        PersonAdapter.clickListener = clickListener;
+    }
 
     @Override
     public PAViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -57,31 +56,30 @@ public PersonAdapter(PersonClickListener clickListener) {
         void onClick(Uri contactUri, int position);
     }
 
-public class PAViewHolder extends RecyclerView.ViewHolder {
-    public final TextView mTextView;
-    private long rowID;
+    public class PAViewHolder extends RecyclerView.ViewHolder {
+        public final TextView mTextView;
+        private long rowID;
 
 
+        public PAViewHolder(View itemView) {
+            super(itemView);
+            mTextView = (TextView) itemView.findViewById(android.R.id.text1);
 
-    public PAViewHolder(View itemView) {
-        super(itemView);
-        mTextView = (TextView) itemView.findViewById(android.R.id.text1);
-
-        // attach listener to itemView
-        itemView.setOnClickListener(
-                new View.OnClickListener() {
-                    // executes when the contact in this ViewHolder is clicked
-                    @Override
-                    public void onClick(View view) {
-                        clickListener.onClick(PersonEntry.buildPersonUri(rowID), ((int) rowID));
+            // attach listener to itemView
+            itemView.setOnClickListener(
+                    new View.OnClickListener() {
+                        // executes when the contact in this ViewHolder is clicked
+                        @Override
+                        public void onClick(View view) {
+                            clickListener.onClick(PersonEntry.buildPersonUri(rowID), ((int) rowID));
+                        }
                     }
-                }
             );
         }
 
-    // set the database row ID for the contact in this ViewHolder
-    public void setRowID(long rowID) {
-        this.rowID = rowID;
+        // set the database row ID for the contact in this ViewHolder
+        public void setRowID(long rowID) {
+            this.rowID = rowID;
         }
     }
 

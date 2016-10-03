@@ -4,10 +4,18 @@
         <item>@string/male</item>
         <item>@string/female</item>
     </string-array>
+
+    <string-array name="age_array">
+        <item>@string/adult</item>
+        <item>@string/teen</item>
+        <item>@string/child</item>
+    </string-array>
+
     <string-array name="vocation_array">
         <item>@string/single</item>
         <item>@string/married</item>
         <item>@string/priest</item>
         <item>@string/religious</item>
     </string-array>
+
 </resources>

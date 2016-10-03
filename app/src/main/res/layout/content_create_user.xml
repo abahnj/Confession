@@ -2,89 +2,106 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/frameLayout"
     android:background="@color/grey"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/logo_pd" />
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_gravity="center"
         android:background="@color/white"
         android:elevation="4dp"
         app:cardCornerRadius="4dp">
-        <LinearLayout
+
+        <android.support.v7.widget.GridLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="@dimen/activity_horizontal_margin"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="24dp"
-                android:layout_marginTop="24dp"
-                android:src="@drawable/logo_pd" />
-
-            <!-- Name Label -->
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/name_editTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            tools:context=".CreateUserActivity"
+            app:columnCount="2"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            >
+            <TextView
+                android:id="@+id/age_textView"
+                android:fontFamily="sans-serif"
+                android:gravity="center_vertical"
+                android:text="@string/age"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                app:layout_gravity="fill"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                app:errorEnabled="true"
-                app:hintAnimationEnabled="true"
-                app:hintEnabled="true"
-                app:hintTextAppearance="@style/TextLabel">
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"/>
 
-                <EditText
-                    android:fontFamily="sans-serif"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/name"
-                    android:inputType="textCapWords"
-                    />
-            </android.support.design.widget.TextInputLayout>
-
+            <Spinner
+                android:id="@+id/age_spinner"
+                android:layout_height="wrap_content"
+                app:layout_gravity="fill"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                />
+            <TextView
+                android:id="@+id/sex_textView"
+                android:fontFamily="sans-serif"
+                android:gravity="center_vertical"
+                android:text="@string/sex"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                app:layout_gravity="fill"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"/>
 
             <Spinner
                 android:id="@+id/sex_spinner"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_gravity="fill"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp"
-                app:layout_gravity="fill" />
+                />
+
+            <TextView
+                android:id="@+id/vocation_textview"
+                android:fontFamily="sans-serif"
+                android:gravity="center_vertical"
+                android:text="@string/vocation"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                app:layout_gravity="fill"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"/>
 
             <Spinner
                 android:id="@+id/vocation_spinner"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_gravity="fill"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp"
-                app:layout_gravity="fill" />
-
-            <TextView
-                android:id="@+id/dob_button"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/rounded_border"
-                android:gravity="center"
-                android:onClick="showDateDob"
-                android:text="@string/dob"
-                android:textAlignment="center"
-                android:textSize="14sp" />
-
+                />
             <TextView
                 android:id="@+id/last_confession_button"
                 android:layout_width="match_parent"
@@ -97,24 +114,26 @@
                 android:onClick="showDateLC"
                 android:text="@string/last_confession"
                 android:textAlignment="center"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                app:layout_columnSpan="2"/>
 
-            <LinearLayout
-                style="?android:attr/buttonBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
-                android:gravity="bottom"
-                android:orientation="vertical">
-                <!-- Signup Button -->
-                <Button
-                    android:id="@+id/save_user_button"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:text="@string/save" />
-            </LinearLayout>
-        </LinearLayout>
+        </android.support.v7.widget.GridLayout>
+
     </android.support.v7.widget.CardView>
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:orientation="vertical">
+        <!-- SignUp Button -->
+        <Button
+            android:id="@+id/save_user_button"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="@string/save" />
+    </LinearLayout>
 </FrameLayout>

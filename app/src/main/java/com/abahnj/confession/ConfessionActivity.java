@@ -5,8 +5,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 
 import java.util.Random;
@@ -21,8 +23,8 @@ public class ConfessionActivity extends PinCompatActivity implements OnFragmentI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confession);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setActionBar(toolbar);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState == null &&
                 findViewById(R.id.confessionContainer) != null) {
@@ -36,6 +38,11 @@ public class ConfessionActivity extends PinCompatActivity implements OnFragmentI
             transaction.add(R.id.confessionContainer, confessionFragment);
             transaction.commit(); // display Confession Fragment
         }
+        //loadBackdrop();
+    }
+    private void loadBackdrop() {
+        final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
+        Glide.with(this).load(R.drawable.examination).centerCrop().into(imageView);
     }
 
     @Override
@@ -51,7 +58,6 @@ public class ConfessionActivity extends PinCompatActivity implements OnFragmentI
                 break;
             default:
                 break;
-
         }
     }
 

@@ -26,9 +26,13 @@ public class ConfessionProvider extends ContentProvider {
     private static final int ONE_PERSON_2_SIN = 401;
     private static final int PRAYERS = 500;
     private static final int INSPIRATION = 600;
+    private static final int GUIDE = 700;
+    private static final int SIN_ACTIVE = 800 ;
+
     //used to figure out the URI to match
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private static final SQLiteQueryBuilder sExaminationWithCountQueryBuilder;
+    private static final SQLiteQueryBuilder sExaminationActiveWithCountQueryBuilder;
 
     static{ sExaminationWithCountQueryBuilder = new SQLiteQueryBuilder();
 
@@ -43,6 +47,20 @@ public class ConfessionProvider extends ContentProvider {
                         "." + ConfessionContract.PersonToSinEntry.COLUMN_SINS_ID);
 
     }
+
+    static{ sExaminationActiveWithCountQueryBuilder = new SQLiteQueryBuilder();
+
+        //This is a left outer join which looks like
+        //SIN LEFT OUTER JOIN PERSON_2_SIN ON SIN._id = PERSON_2_SIN.SINS_ID
+        sExaminationActiveWithCountQueryBuilder.setTables(
+                ConfessionContract.SinActiveEntry.TABLE_NAME + " LEFT OUTER JOIN " +
+                        ConfessionContract.PersonToSinEntry.TABLE_NAME +
+                        " ON " + ConfessionContract.SinActiveEntry.TABLE_NAME +
+                        "." + ConfessionContract.SinActiveEntry._ID +
+                        " = " + ConfessionContract.PersonToSinEntry.TABLE_NAME +
+                        "." + ConfessionContract.PersonToSinEntry.COLUMN_SINS_ID);
+    }
+
 
     //used to access the database
     private ConfessionDbHelper mDbHelper;
@@ -63,6 +81,8 @@ public class ConfessionProvider extends ContentProvider {
         matcher.addURI(authority, ConfessionContract.PATH_PERSON_2_SIN + "/#", ONE_PERSON_2_SIN);
         matcher.addURI(authority, ConfessionContract.PATH_PRAYERS, PRAYERS);
         matcher.addURI(authority, ConfessionContract.PATH_INSPIRATION, INSPIRATION);
+        matcher.addURI(authority, ConfessionContract.PATH_GUIDE, GUIDE);
+        matcher.addURI(authority, ConfessionContract.PATH_SIN_ACTIVE, SIN_ACTIVE);
         // 3) Return the new matcher!
         return matcher;
     }
@@ -131,6 +151,16 @@ public class ConfessionProvider extends ContentProvider {
                         null,
                         sortOrder);
                 break;
+            case SIN_ACTIVE:
+                retCursor = sExaminationActiveWithCountQueryBuilder.query(
+                        mDbHelper.getReadableDatabase(),
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
             case PERSON_2_SIN:
                 retCursor = mDbHelper.getReadableDatabase().query(
                         ConfessionContract.PersonToSinEntry.TABLE_NAME,
@@ -156,6 +186,17 @@ public class ConfessionProvider extends ContentProvider {
             case INSPIRATION:
                 retCursor = mDbHelper.getReadableDatabase().query(
                         ConfessionContract.InspirationEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            case GUIDE:
+                retCursor = mDbHelper.getReadableDatabase().query(
+                        ConfessionContract.GuideEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -256,6 +297,11 @@ public class ConfessionProvider extends ContentProvider {
                         values,
                         ConfessionContract.PersonEntry._ID + "=" + id,
                         selectionArgs);
+                if (rowsUpdated == 0) {
+                    rowsUpdated = (int) db.insert(ConfessionContract.PersonEntry.TABLE_NAME,
+                            null,
+                            values);
+                }
                 break;
             }
             case ONE_PERSON_2_SIN: {

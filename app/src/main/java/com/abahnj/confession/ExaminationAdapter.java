@@ -61,11 +61,6 @@ public class ExaminationAdapter extends RecyclerView.Adapter<ExaminationAdapter.
         holder.mTextView2.setText(String.valueOf(count));
         holder.setPosition(position);
 
-        /*try {
-        }
-        catch (Resources.NotFoundException e) {
-        holder.mTextView2.setText("0");
-        }*/
     }
 
     @Override

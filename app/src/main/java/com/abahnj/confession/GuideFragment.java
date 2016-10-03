@@ -1,12 +1,14 @@
 package com.abahnj.confession;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -64,15 +66,50 @@ public class GuideFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_guide_fragement, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_guide, container, false);
+        CardView cardView = (CardView) rootView.findViewById(R.id.faq);
+        CardView cardView1 = (CardView) rootView.findViewById(R.id.asbp);
+        CardView cardView2 = (CardView) rootView.findViewById(R.id.effc);
+        CardView cardView3 = (CardView) rootView.findViewById(R.id.ccc);
+        CardView cardView4 = (CardView) rootView.findViewById(R.id.htmagc);
+        cardView.setOnClickListener(fragmentOnClick);
+        cardView1.setOnClickListener(fragmentOnClick);
+        cardView2.setOnClickListener(fragmentOnClick);
+        cardView3.setOnClickListener(fragmentOnClick);
+        cardView4.setOnClickListener(fragmentOnClick);
+        return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppBarLayout toolbar = (AppBarLayout) getActivity().findViewById(R.id.appbar);  // or however you need to do it for your code
+        toolbar.setExpanded(false);
     }
+
+    View.OnClickListener fragmentOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.faq:
+                    mListener.onFragmentInteraction(1);
+                    break;
+                case R.id.asbp:
+                    mListener.onFragmentInteraction(2);
+                    break;
+                case R.id.effc:
+                    mListener.onFragmentInteraction(3);
+                    break;
+                case R.id.ccc:
+                    mListener.onFragmentInteraction(4);
+                    break;
+                case R.id.htmagc:
+                    mListener.onFragmentInteraction(5);
+                    break;
+
+            }
+        }
+    };
 
     @Override
     public void onAttach(Context context) {
@@ -103,6 +140,6 @@ public class GuideFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(int guideId);
     }
 }

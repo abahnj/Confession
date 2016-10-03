@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.abahnj.confession.data.ConfessionContract;
+import com.bumptech.glide.Glide;
 import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 
 public class ExaminationActivity extends PinCompatActivity implements CommandmentFragment.CommandmentFragmentListener, ExaminationFragment.OnFragmentInteractionListener {
@@ -39,7 +41,11 @@ public class ExaminationActivity extends PinCompatActivity implements Commandmen
             transaction.replace(R.id.examinationContainer, commandmentFragment);
             transaction.commit(); // display Examination Fragment
         }
-
+        loadBackdrop();
+    }
+    private void loadBackdrop() {
+        final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
+        Glide.with(this).load(R.drawable.examination1).centerCrop().into(imageView);
     }
 
     @Override

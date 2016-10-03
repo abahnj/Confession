@@ -29,8 +29,8 @@ public class ConfessionAdapter extends RecyclerView.Adapter<ConfessionAdapter.Cc
     @Override
     public void onBindViewHolder(CcAViewHolder holder, int position) {
         mCursor.moveToPosition(position);
-        holder.setRowID(mCursor.getLong(mCursor.getColumnIndex(ConfessionContract.SinEntry._ID)));
-        holder.mTextView1.setText(mCursor.getString(mCursor.getColumnIndex(ConfessionContract.SinEntry.COLUMN_DESCRIPTION)));
+        holder.setRowID(mCursor.getLong(mCursor.getColumnIndex(ConfessionContract.SinActiveEntry._ID)));
+        holder.mTextView1.setText(mCursor.getString(mCursor.getColumnIndex(ConfessionContract.SinActiveEntry.COLUMN_DESCRIPTION)));
         final int count = mCursor.getInt(mCursor.getColumnIndex(ConfessionContract.PersonToSinEntry.COLUMN_COUNT));
         holder.mTextView2.setText(String.valueOf(count));
         holder.setPosition(position);

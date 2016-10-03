@@ -2,8 +2,10 @@ package com.abahnj.confession;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,14 +43,7 @@ public class MainActivity extends PinCompatActivity {
                     Intent i = new Intent(MainActivity.this, ConfessionIntro.class);
                     startActivity(i);
 
-                    //  Make a new preferences editor
-                    SharedPreferences.Editor e = getPrefs.edit();
 
-                    //  Edit preference to make it false because we don't want this to run again
-                    e.putBoolean("firstStart", false);
-
-                    //  Apply changes
-                    e.apply();
                 }
             }
         });
@@ -73,7 +68,24 @@ public class MainActivity extends PinCompatActivity {
         inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
-
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        switch (AppCompatDelegate.getDefaultNightMode()) {
+            case AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM:
+                menu.findItem(R.id.menu_night_mode_system).setChecked(true);
+                break;
+            case AppCompatDelegate.MODE_NIGHT_AUTO:
+                menu.findItem(R.id.menu_night_mode_auto).setChecked(true);
+                break;
+            case AppCompatDelegate.MODE_NIGHT_YES:
+                menu.findItem(R.id.menu_night_mode_night).setChecked(true);
+                break;
+            case AppCompatDelegate.MODE_NIGHT_NO:
+                menu.findItem(R.id.menu_night_mode_day).setChecked(true);
+                break;
+        }
+        return true;
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -82,11 +94,36 @@ public class MainActivity extends PinCompatActivity {
                 resetApp();
                 return true;
             case R.id.action_settings:
-                //showHelp();
+                showSettings();
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            case R.id.menu_night_mode_system:
+                setNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case R.id.menu_night_mode_day:
+                setNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case R.id.menu_night_mode_night:
+                setNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case R.id.menu_night_mode_auto:
+                setNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                break;
         }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setNightMode(@AppCompatDelegate.NightMode int nightMode) {
+        AppCompatDelegate.setDefaultNightMode(nightMode);
+
+        if (Build.VERSION.SDK_INT >= 11) {
+            recreate();
+        }
+    }
+
+    private void showSettings() {
+        Intent intent = new Intent(this, CreateUserActivity.class);
+        intent.putExtra("settings", "Settings");
+        startActivity(intent);
     }
 
     private void resetApp() {
@@ -118,7 +155,7 @@ public class MainActivity extends PinCompatActivity {
 
 
     public void guide(View view) {
-        Intent intent = new Intent(MainActivity.this, ConfessionIntro.class);
+        Intent intent = new Intent(MainActivity.this, GuideActivity.class);
         startActivity(intent);
     }
 
