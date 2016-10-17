@@ -4,6 +4,7 @@ package com.abahnj.confession;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -23,10 +24,7 @@ import com.abahnj.confession.data.ConfessionContract;
 public class GuideFragment2 extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
 
-    private OnDetailClickListener clickListener;
-    private GuideAdapter guideAdapter;
     private static final String CATEGORY_ID ="guide_id" ;
-    private String[] selectionArgs;
     private static final int GUIDE_LOADER = 1;
     private static final String[] GUIDE_COLUMNS = {
             ConfessionContract.GuideEntry._ID,
@@ -34,6 +32,9 @@ public class GuideFragment2 extends Fragment implements LoaderManager.LoaderCall
             ConfessionContract.GuideEntry.COLUMN_HEADER_ID,
             ConfessionContract.GuideEntry.COLUMN_GUIDE_TITLE
     };
+    private OnDetailClickListener clickListener;
+    private GuideAdapter guideAdapter;
+    private String[] selectionArgs;
     private RecyclerView mRecyclerView;
     public GuideFragment2() {
         // Required empty public constructor
@@ -47,6 +48,14 @@ public class GuideFragment2 extends Fragment implements LoaderManager.LoaderCall
             selectionArgs = new String[]{String.valueOf(categoryId)};
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppBarLayout toolbar = (AppBarLayout) getActivity().findViewById(R.id.appbar);  // or however you need to do it for your code
+        toolbar.setExpanded(true);
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,6 +73,7 @@ public class GuideFragment2 extends Fragment implements LoaderManager.LoaderCall
         });
         mRecyclerView.setAdapter(guideAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        // Set title bar
         return rootView;
     }
 
@@ -76,6 +86,7 @@ public class GuideFragment2 extends Fragment implements LoaderManager.LoaderCall
             throw new RuntimeException(context.toString()
                     + " must implement OnDetailClickListener");
         }
+
     }
 
     @Override

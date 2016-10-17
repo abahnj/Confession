@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.abahnj.confession.data.ConfessionContract;
 
@@ -42,6 +43,7 @@ public class ConfessionFragment_2 extends Fragment implements LoaderManager.Load
     private String[] selectionArgs;
     private ConfessionAdapter confessionAdapter;
     private OnFragmentInteractionListener mListener;
+    private TextView emptyTextView;
 
     public ConfessionFragment_2() {
     }
@@ -78,6 +80,8 @@ public class ConfessionFragment_2 extends Fragment implements LoaderManager.Load
                 mListener.onFragmentInteraction(FRAGMENT_TAG);
             }
         });
+        emptyTextView = (TextView) rootView.findViewById(R.id.emptyTextView);
+
         RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewS);
         mRecyclerView.setHasFixedSize(true);
 
@@ -106,7 +110,8 @@ public class ConfessionFragment_2 extends Fragment implements LoaderManager.Load
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         confessionAdapter.swapCursor(data);
-
+        if (confessionAdapter.getItemCount() != 0)
+            emptyTextView.setVisibility(View.GONE);
     }
 
     @Override

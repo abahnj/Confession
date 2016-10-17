@@ -16,8 +16,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.abahnj.confession.data.ConfessionContract;
 
@@ -36,7 +36,6 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public static final String COMMANDMENT_URI = "commandment_uri";
 
-    private static final String ARG_PARAM1 = "param1";
     private static final int EXAMINATION_LOADER = 2;// identifies Loader
     private static final String[] EXAMINATION_COLUMNS = {
             // In this case the id needs to be fully qualified with a table name, since
@@ -66,18 +65,15 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
     private int id;
     // TODO: Rename and change types of parameters
     private int commandmentID;
-    private String mParam2;
     private OnFragmentInteractionListener mListener;
     View.OnClickListener fragmentChange = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.nextFragment:
-                    Toast.makeText(getActivity(), "Next Clicked", Toast.LENGTH_SHORT).show();
                     mListener.onFragmentInteraction(1, commandmentID);
                     break;
                 case R.id.previousFragment:
-                    Toast.makeText(getActivity(), "Previous Clicked", Toast.LENGTH_SHORT).show();
                     mListener.onFragmentInteraction(-1, commandmentID);
                     break;
             }
@@ -101,7 +97,6 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
     public static ExaminationFragment newInstance(int commandmentUri) {
         ExaminationFragment examinationFragment = new ExaminationFragment();
 
-        //Integer.valueOf(commandmentUri.getLastPathSegment())
 
         int commandmentID = commandmentUri;
         // specify commandment's Uri as an argument to the ExaminationFragment
@@ -124,18 +119,18 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
         if (getArguments() != null) {
             commandmentID = getArguments().getInt(ExaminationActivity.COMMANDMENT_URI);
         }
-        selection = "(" +ConfessionContract.SinEntry.COLUMN_COMMANDMENT_ID + " = ? AND " +
+        selection = "(" + ConfessionContract.SinEntry.COLUMN_COMMANDMENT_ID + " = ? AND " +
                 Utility.calculateAgeBracket(dob) + " AND " +
-                Utility.vocationSelection(vocation)+ " AND " +
+                Utility.vocationSelection(vocation) + " AND " +
                 Utility.sexSelection(sex) + " AND " +
                 ConfessionContract.PersonToSinEntry.COLUMN_PERSON_ID + " = ?" + ")"
-        + " OR " +"(" +ConfessionContract.SinEntry.COLUMN_COMMANDMENT_ID + " = ? AND " +
+                + " OR " + "(" + ConfessionContract.SinEntry.COLUMN_COMMANDMENT_ID + " = ? AND " +
                 Utility.calculateAgeBracket(dob) + " AND " +
-                Utility.vocationSelection(vocation)+ " AND " +
+                Utility.vocationSelection(vocation) + " AND " +
                 Utility.sexSelection(sex) + " AND " +
                 ConfessionContract.PersonToSinEntry.COLUMN_PERSON_ID + " is NULL" + ")";
 
-        selectionArgs = new String[]{String.valueOf(commandmentID), String.valueOf(id), String.valueOf(commandmentID) };
+        selectionArgs = new String[]{String.valueOf(commandmentID), String.valueOf(id), String.valueOf(commandmentID)};
         getLoaderManager().initLoader(EXAMINATION_LOADER, null, this);
 
 
@@ -158,6 +153,7 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
+
         // create recyclerView's adapter and item click listener
         examinationAdapter = new ExaminationAdapter(new ExaminationAdapter.ExaminationClickListener() {
 
@@ -166,11 +162,9 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
                 ExaminationFragment.rowID = rowID;
                 ExaminationFragment.position = position;
                 if (longClick) {
-                    Toast.makeText(getActivity(), rowID + " long click", Toast.LENGTH_LONG).show();
                 } else {
                     mRecyclerView.showContextMenu();
                     updateCount(rowID, position, 1);
-                    Toast.makeText(getActivity(), String.valueOf(rowID), Toast.LENGTH_LONG).show();
                 }
             }
         }, getActivity());
@@ -187,7 +181,7 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
 
     private void updateCount(int rowID, int position, int addition) {
         int count = 0;
-        int rowsUpdatedOrDeleted = 0;
+        int rowsUpdatedOrDeleted;
         String selection = ConfessionContract.PersonToSinEntry.COLUMN_PERSON_ID + " = ?"
                 + " AND " + ConfessionContract.PersonToSinEntry.COLUMN_SINS_ID + " = ?";
         String[] selectionArgs = {String.valueOf(id), String.valueOf(rowID)};
@@ -210,28 +204,38 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
         contentValues.put(ConfessionContract.PersonToSinEntry.COLUMN_SINS_ID, rowID);
         contentValues.put(ConfessionContract.PersonToSinEntry.COLUMN_COUNT, numberTree);
 
-        switch (numberTree) {
-            case 0:
+        if (count == 0) {
+        } else {
+            if (addition == 0) {
                 rowsUpdatedOrDeleted = getActivity().getContentResolver().delete(
                         ConfessionContract.PersonToSinEntry.CONTENT_URI,
                         selection,
                         selectionArgs
                 );
-                break;
-            default:
-                rowsUpdatedOrDeleted = getActivity().getContentResolver().update(
-                        ConfessionContract.PersonToSinEntry.buildSinUri(rowID),
-                        contentValues,
-                        selection,
-                        selectionArgs);
+            } else {
+                switch (numberTree) {
+                    case 0:
+                        rowsUpdatedOrDeleted = getActivity().getContentResolver().delete(
+                                ConfessionContract.PersonToSinEntry.CONTENT_URI,
+                                selection,
+                                selectionArgs
+                        );
+                        break;
+                    default:
+                        rowsUpdatedOrDeleted = getActivity().getContentResolver().update(
+                                ConfessionContract.PersonToSinEntry.buildSinUri(rowID),
+                                contentValues,
+                                selection,
+                                selectionArgs);
 
+                }
+
+            }
+            if (rowsUpdatedOrDeleted != 0) {
+                getLoaderManager().restartLoader(EXAMINATION_LOADER, null, this);
+                mRecyclerView.getAdapter().notifyDataSetChanged();
+            }
         }
-
-        if (rowsUpdatedOrDeleted != 0) {
-            getLoaderManager().restartLoader(EXAMINATION_LOADER, null, this);
-            mRecyclerView.getAdapter().notifyDataSetChanged();
-        }
-
     }
 
 
@@ -281,23 +285,30 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case 1:
                 updateCount(rowID, position, -1);
-                break;
+                return true;
             case 2:
                 updateCount(rowID, position, 0);
-                break;
+                return true;
             case 3:
-                break;
-            case 4:
+                editExamination(info.id);
+                return true;
+            /*case 4:
                 break;
             case 5:
                 break;
+*/
             default:
-                break;
+                return super.onContextItemSelected(item);
         }
-        return super.onContextItemSelected(item);
+    }
+
+
+    private void editExamination(long id) {
+
     }
 
     private String fragmentTitle() {
@@ -331,7 +342,6 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(int num, int commandmentID);
     }
 }

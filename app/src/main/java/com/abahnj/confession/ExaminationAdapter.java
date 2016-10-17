@@ -30,6 +30,11 @@ public class ExaminationAdapter extends RecyclerView.Adapter<ExaminationAdapter.
     }
 
     @Override
+    public void setHasStableIds(boolean hasStableIds) {
+        super.setHasStableIds(true);
+    }
+
+    @Override
     public EAViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // inflate the android.R.layout.simple_list_item_1 layout
         View view = LayoutInflater.from(parent.getContext()).inflate(
@@ -94,13 +99,7 @@ public class ExaminationAdapter extends RecyclerView.Adapter<ExaminationAdapter.
                     clickListener.onClick(v, (int) rowID, position, false);
                 }
             });
-            /*itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    clickListener.onClick(v, (int) rowID, position, true);
-                    return true;
-                }
-            });*/
+
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -109,14 +108,18 @@ public class ExaminationAdapter extends RecyclerView.Adapter<ExaminationAdapter.
                 }
             });
 
+
             itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+
+
                 @Override
                 public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
                     menu.add(0, 1, 0, R.string.context_menu_count);
                     menu.add(0, 2, 0, R.string.reset_count);
-                    menu.add(0, 3, 0, R.string.context_menu_edit);
-                    menu.add(0, 4, 0, R.string.context_menu_delete);
-                    menu.add(0, 5, 0, R.string.context_menu_restore);
+                    //menu.add(0, 3, 0, R.string.context_menu_edit);
+                    //menu.add(0, 4, 0, R.string.context_menu_delete);
+                    //menu.add(0, 5, 0, R.string.context_menu_restore);
 
                 }
             });

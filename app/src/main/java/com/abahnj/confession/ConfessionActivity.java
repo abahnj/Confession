@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
+import com.abahnj.confession.data.ConfessionContract;
 import com.bumptech.glide.Glide;
 import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 
@@ -76,6 +77,7 @@ public class ConfessionActivity extends PinCompatActivity implements OnFragmentI
         newFragment.setArguments(args);
         newFragment.show(getFragmentManager(), "inspiration");
 
+        final int delete = getContentResolver().delete(ConfessionContract.PersonToSinEntry.CONTENT_URI, null, null);
     }
 
     @Override

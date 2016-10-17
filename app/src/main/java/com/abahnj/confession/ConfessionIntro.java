@@ -17,35 +17,13 @@ public class ConfessionIntro extends AppIntro {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        addSlide(AppIntroFragment.newInstance("Secured", "To keep away from prying eyes", R.drawable.intro1, Color.TRANSPARENT));
+        addSlide(AppIntroFragment.newInstance("Simple", "Beautiful and fluid UI ", R.drawable.intro2, Color.parseColor("#5C6BC0")));
+        addSlide(AppIntroFragment.newInstance("Catholic", "Fully in line with the Churches teachings", R.drawable.intro3, Color.parseColor("#4CAF50")));
+        addSlide(AppIntroFragment.newInstance("Guide", "Step by step guide to a Catholic Confession", R.drawable.intro4, Color.parseColor("#00BCD4")));
 
-        // Add your slide's fragments here.
-        // AppIntro will automatically generate the dots indicator and buttons.
-        //addSlide(first_fragment);
-        //addSlide(second_fragment);
-        //addSlide(third_fragment);
-        //addSlide(fourth_fragment);
-
-
-        // Instead of fragments, you can also use our default slide
-        // Just set a title, description, background and image. AppIntro will do the rest.
-        addSlide(AppIntroFragment.newInstance("Secured", "Pass code and/or Fingerprint security", R.drawable.intro1, Color.TRANSPARENT));
-        addSlide(AppIntroFragment.newInstance("Secured", "Pass code and/or Fingerprint security", R.drawable.intro2, Color.parseColor("#5C6BC0")));
-        addSlide(AppIntroFragment.newInstance("Secured", "Pass code and/or Fingerprint security", R.drawable.intro3, Color.parseColor("#4CAF50")));
-        addSlide(AppIntroFragment.newInstance("Secured", "Pass code and/or Fingerprint security", R.drawable.intro4, Color.parseColor("#00BCD4")));
-        //addSlide(new InputDemoSlide());
-        // OPTIONAL METHODS
-        // Override bar/separator color.
-        //setBarColor(Color.parseColor("#3F51B5"));
         setSeparatorColor(Color.parseColor("#2196F3"));
 
-        // Hide Skip/Done button.
-        //showSkipButton(false);
-        //setProgressButtonEnabled(false);
-
-        // Turn vibration on and set intensity.
-        // NOTE: you will probably need to ask VIBRATE permisssion in Manifest.
-        //setVibrate(true);
-        //setVibrateIntensity(30);
     }
 
     @Override
@@ -64,6 +42,6 @@ public class ConfessionIntro extends AppIntro {
     @Override
     public void onSlideChanged(@Nullable Fragment oldFragment, @Nullable Fragment newFragment) {
         super.onSlideChanged(oldFragment, newFragment);
-        // Do something when the slide changes.
+
     }
 }

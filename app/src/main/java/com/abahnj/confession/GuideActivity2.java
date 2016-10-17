@@ -1,41 +1,47 @@
 package com.abahnj.confession;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 
-public class GuideActivity extends PinCompatActivity implements GuideFragment.OnFragmentInteractionListener, GuideFragment2.OnDetailClickListener {
+public class GuideActivity2 extends AppCompatActivity implements GuideFragment2.OnDetailClickListener {
 
-    private static final String CATEGORY_ID ="guide_id" ;
-    private static final String DETAIL_ID ="detail_id" ;
+    private static final String CATEGORY_ID = "guide_id";
+    private static final String DETAIL_ID = "detail_id";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guide);
+        setContentView(R.layout.activity_guide2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        int guideId = getIntent().getIntExtra("guideId", 99);
+        getSupportActionBar().setTitle(setFragmentTitle(guideId));
+        loadBackdrop(guideId);
+
         if (savedInstanceState == null &&
-                findViewById(R.id.guideContainer) != null) {
+                findViewById(R.id.guideContainer2) != null) {
             // create Examination Fragment
-            GuideFragment guideFragment = new GuideFragment();
+            GuideFragment2 guideFragment = new GuideFragment2();
+            Bundle args = new Bundle();
+            args.putInt(CATEGORY_ID, guideId);
+            guideFragment.setArguments(args);
 
             // add the fragment to the FrameLayout
             FragmentTransaction transaction =
                     getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.guideContainer, guideFragment);
-            transaction.commit(); // display Examination Fragment
+            transaction.replace(R.id.guideContainer2, guideFragment);
+            transaction.commit(); // display Guide Fragment
         }
-        loadBackdrop(0);
     }
-
 
     private void loadBackdrop(int guideId) {
         int rId;
@@ -60,29 +66,28 @@ public class GuideActivity extends PinCompatActivity implements GuideFragment.On
         Glide.with(this).load(rId).centerCrop().into(imageView);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+    @NonNull
+    private String setFragmentTitle(int guideId) {
+        String Title;
+        switch (guideId) {
+            case 1:
+                Title = getResources().getString(R.string.faq);
+                break;
+            case 2:
+                Title = getResources().getString(R.string.as_said_by_popes);
+                break;
+            case 3:
+                Title = getResources().getString(R.string.extracts_fulton_sheen);
+                break;
+            case 4:
+                Title = getResources().getString(R.string.catechism_of_the_catholic_church);
+                break;
+            default:
+                Title = getResources().getString(R.string.how_to_make_a_good_confession);
+                break;
 
-    @Override
-    public void onFragmentInteraction(int guideId) {
-        Intent intent = new Intent(this, GuideActivity2.class);
-        intent.putExtra("guideId", guideId);
-        startActivity(intent);
-
-        /*GuideFragment2 fragment = new GuideFragment2();
-        Bundle args = new Bundle();
-        args.putInt(CATEGORY_ID, guideId);
-        fragment.setArguments(args);
-
-        FragmentTransaction transaction =
-                getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.guideContainer, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-
-        loadBackdrop(guideId);*/
+        }
+        return Title;
     }
 
 
@@ -95,7 +100,7 @@ public class GuideActivity extends PinCompatActivity implements GuideFragment.On
 
         FragmentTransaction transaction =
                 getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.guideContainer, fragment);
+        transaction.replace(R.id.guideContainer2, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

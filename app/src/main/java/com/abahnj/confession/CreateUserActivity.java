@@ -13,7 +13,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -34,6 +33,7 @@ import java.util.Locale;
 
 public class CreateUserActivity extends AppCompatActivity {
 
+    public static final String PREFS_NAME = "MyPrefsFile";
     private static final int REQUEST_CODE_ENABLE = 11;
     private static Long dob;
     private static Long lastConfession;
@@ -43,9 +43,6 @@ public class CreateUserActivity extends AppCompatActivity {
     int month = c.get(Calendar.MONTH);
     int day = c.get(Calendar.DAY_OF_MONTH);
     private CoordinatorLayout coordinatorLayout;
-    public static final String PREFS_NAME = "MyPrefsFile";
-
-
     private TextView lc_tv;
     DatePickerDialog.OnDateSetListener lcL = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -69,8 +66,30 @@ public class CreateUserActivity extends AppCompatActivity {
 
         }
     };
+    AdapterView.OnItemSelectedListener VS = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            switch (parent.getId()) {
+                case R.id.sex_spinner:
+                    sex = position;
+                    break;
+                case R.id.vocation_spinner:
+                    vocation = position;
+                    break;
+                case R.id.age_spinner:
+                    dob = Utility.setAge(position);
+                    break;
+                default:
+                    break;
+            }
 
+        }
 
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,33 +160,11 @@ public class CreateUserActivity extends AppCompatActivity {
                 R.id.save_user_button);
         savePersonButton.setOnClickListener(BC);
 
+
+        lastConfession = System.currentTimeMillis();
+        SimpleDateFormat dateInstance = new SimpleDateFormat("d'th' MMM yyyy", Locale.getDefault());
+        lc_tv.setText(dateInstance.format(lastConfession));
     }
-
-    AdapterView.OnItemSelectedListener VS = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            switch (parent.getId()) {
-                case R.id.sex_spinner:
-                    sex = position;
-                    break;
-                case R.id.vocation_spinner:
-                    vocation = position;
-                    break;
-                case R.id.age_spinner:
-                    dob = Utility.setAge(position);
-                    break;
-                default:
-                    break;
-            }
-
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    };
-
 
     // saves contact information to the database
     private void savePerson() {

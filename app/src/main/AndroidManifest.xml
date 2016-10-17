@@ -15,6 +15,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -76,6 +77,15 @@
         <activity
             android:name=".ConfessionIntro"
             android:label="@string/app_name" />
+        <activity
+            android:name=".GuideActivity2"
+            android:label="@string/title_activity_guide"
+            android:parentActivityName=".GuideActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.abahnj.confession.GuideActivity" />
+        </activity>
     </application>
 
 </manifest>

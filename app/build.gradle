@@ -21,7 +21,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     //Lollipin
     compile('com.github.orangegangsters:lollipin:1.9.4@aar') {
         transitive = true
@@ -35,4 +34,6 @@ dependencies {
     compile 'com.android.support:support-v13:23.4.0'
     compile 'com.github.paolorotolo:appintro:4.0.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    testCompile 'junit:junit:4.12'
 }

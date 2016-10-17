@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ExaminationFragment">
+
+    <TextView
+        android:id="@+id/commandmentId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="!st Commadnemednt"
+        android:textSize="18sp" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewE"
         android:layout_width="match_parent"
@@ -35,6 +43,5 @@
             android:layout_weight="1"
             android:text="@string/next" />
     </LinearLayout>
-    <!--TODO implement previous and next buttons-->
 
 </LinearLayout>

@@ -51,6 +51,7 @@ public class ExaminationActivity extends PinCompatActivity implements Commandmen
     @Override
     public void onCommandmentSelected(Uri commandmentUri, Boolean addToBackStack) {
         Toast.makeText(this, commandmentUri.toString(), Toast.LENGTH_SHORT).show();
+        getSupportActionBar().setTitle("AbahNJ");
         if (findViewById(R.id.examinationContainer) != null) // phone
             displayCommandment(commandmentUri, R.id.examinationContainer, addToBackStack);
         else { // tablet

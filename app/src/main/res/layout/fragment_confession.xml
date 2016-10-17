@@ -12,8 +12,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ConfessionFragment_1">
 
-
-    <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,37 +25,37 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:padding="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <TextView
-                    android:textSize="16sp"
-                    android:fontFamily="sans-serif"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
                     android:padding="@dimen/default_gap"
-                    android:text="@string/sign_of_the_cross" />
+                    android:text="@string/sign_of_the_cross"
+                    android:textSize="16sp" />
 
                 <TextView
-                    android:textSize="16sp"
-                    android:fontFamily="sans-serif"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginBottom="24dp"
                     android:id="@+id/time_since_last"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="sans-serif"
                     android:padding="@dimen/default_gap"
+                    android:textSize="16sp"
                     tools:text ="@string/time_since_last"/>
 
                 <TextView
-                    android:textSize="16sp"
-                    android:fontFamily="sans-serif"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
                     android:padding="@dimen/default_gap"
-                    android:text ="@string/here_are_my_sins"/>
+                    android:text="@string/here_are_my_sins"
+                    android:textSize="16sp" />
 
 
 
@@ -77,13 +75,13 @@
         android:orientation="vertical">
 
         <TextView
-            android:textAlignment="center"
-            android:textSize="12sp"
-            android:fontFamily="sans-serif"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
             android:padding="@dimen/default_gap"
-            android:text="@string/confessionNotice" />
+            android:text="@string/confessionNotice"
+            android:textAlignment="center"
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/nextFragment"

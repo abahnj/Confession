@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/as_said_by_pope" />
+                android:src="@drawable/as_said_by_pope1" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -117,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ccc" />
+                android:src="@drawable/ccc2" />
 
             <TextView
                 android:layout_width="match_parent"
