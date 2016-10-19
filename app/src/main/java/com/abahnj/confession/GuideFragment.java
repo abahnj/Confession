@@ -2,13 +2,11 @@ package com.abahnj.confession;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 
 /**
@@ -30,6 +28,29 @@ public class GuideFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    View.OnClickListener fragmentOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.faq:
+                    mListener.onFragmentInteraction(1);
+                    break;
+                case R.id.asbp:
+                    mListener.onFragmentInteraction(2);
+                    break;
+                case R.id.effc:
+                    mListener.onFragmentInteraction(3);
+                    break;
+                case R.id.ccc:
+                    mListener.onFragmentInteraction(4);
+                    break;
+                case R.id.htmagc:
+                    mListener.onFragmentInteraction(5);
+                    break;
+
+            }
+        }
+    };
 
     public GuideFragment() {
         // Required empty public constructor
@@ -79,37 +100,6 @@ public class GuideFragment extends Fragment {
         cardView4.setOnClickListener(fragmentOnClick);
         return rootView;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        AppBarLayout toolbar = (AppBarLayout) getActivity().findViewById(R.id.appbar);  // or however you need to do it for your code
-        toolbar.setExpanded(false);
-    }
-
-    View.OnClickListener fragmentOnClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.faq:
-                    mListener.onFragmentInteraction(1);
-                    break;
-                case R.id.asbp:
-                    mListener.onFragmentInteraction(2);
-                    break;
-                case R.id.effc:
-                    mListener.onFragmentInteraction(3);
-                    break;
-                case R.id.ccc:
-                    mListener.onFragmentInteraction(4);
-                    break;
-                case R.id.htmagc:
-                    mListener.onFragmentInteraction(5);
-                    break;
-
-            }
-        }
-    };
 
     @Override
     public void onAttach(Context context) {

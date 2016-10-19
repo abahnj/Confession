@@ -3,17 +3,18 @@ package com.abahnj.confession;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.abahnj.confession.data.ConfessionContract;
 import com.bumptech.glide.Glide;
 import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 
-public class ExaminationActivity extends PinCompatActivity implements CommandmentFragment.CommandmentFragmentListener, ExaminationFragment.OnFragmentInteractionListener {
+public class ExaminationActivity extends PinCompatActivity implements CommandmentFragment.CommandmentFragmentListener, ExaminationFragment.OnFragmentInteractionListener, EditExaminationFragment.OnSaveClicked {
 
     public static final String COMMANDMENT_URI = "commandment_uri";
     private static final String PREFS_NAME = "MyPrefsFile";
@@ -50,8 +51,6 @@ public class ExaminationActivity extends PinCompatActivity implements Commandmen
 
     @Override
     public void onCommandmentSelected(Uri commandmentUri, Boolean addToBackStack) {
-        Toast.makeText(this, commandmentUri.toString(), Toast.LENGTH_SHORT).show();
-        getSupportActionBar().setTitle("AbahNJ");
         if (findViewById(R.id.examinationContainer) != null) // phone
             displayCommandment(commandmentUri, R.id.examinationContainer, addToBackStack);
         else { // tablet
@@ -121,5 +120,11 @@ public class ExaminationActivity extends PinCompatActivity implements Commandmen
         }
         Uri commandmentUri = ConfessionContract.CommandmentEntry.buildCommandmentUri((long) newFragment);
         onCommandmentSelected(commandmentUri, false);
+    }
+
+    @Override
+    public void onFragmentDismiss() {
+        View view = findViewById(R.id.coordinatorLayout);
+        Snackbar.make(view, R.string.snackbar_success_text, Snackbar.LENGTH_SHORT).show();
     }
 }

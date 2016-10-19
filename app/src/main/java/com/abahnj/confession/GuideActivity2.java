@@ -3,13 +3,13 @@ package com.abahnj.confession;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 
-public class GuideActivity2 extends AppCompatActivity implements GuideFragment2.OnDetailClickListener {
+public class GuideActivity2 extends PinCompatActivity implements GuideFragment2.OnDetailClickListener {
 
     private static final String CATEGORY_ID = "guide_id";
     private static final String DETAIL_ID = "detail_id";

@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 
 public class GuideActivity extends PinCompatActivity implements GuideFragment.OnFragmentInteractionListener, GuideFragment2.OnDetailClickListener {
@@ -33,36 +31,6 @@ public class GuideActivity extends PinCompatActivity implements GuideFragment.On
             transaction.replace(R.id.guideContainer, guideFragment);
             transaction.commit(); // display Examination Fragment
         }
-        loadBackdrop(0);
-    }
-
-
-    private void loadBackdrop(int guideId) {
-        int rId;
-        final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        switch (guideId) {
-            case 1:
-                rId = R.drawable.faq;
-                break;
-            case 2:
-                rId = R.drawable.as_said_by_pope1;
-                break;
-            case 3:
-                rId = R.drawable.fulton_sheen;
-                break;
-            case 4:
-                rId = R.drawable.ccc2;
-                break;
-            default:
-                rId = R.drawable.how_to_make_a_good_confession;
-                break;
-        }
-        Glide.with(this).load(rId).centerCrop().into(imageView);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override

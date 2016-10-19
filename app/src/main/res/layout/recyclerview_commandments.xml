@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/row_contentC"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:gravity="center_vertical"
     android:minHeight="?android:attr/listPreferredItemHeight"
+    android:orientation="vertical"
     android:paddingEnd="@dimen/abc_list_item_padding_horizontal_material"
     android:paddingStart="@dimen/abc_list_item_padding_horizontal_material"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:gravity="center_vertical"
-    android:background="?android:attr/selectableItemBackground"
     >
     <TextView
-        android:textSize="18sp"
-        android:fontFamily="sans-serif"
-        android:padding="4dp"
         android:id="@+id/commandment_heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="First Commandment"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
-    <TextView
-        android:textSize="12sp"
         android:fontFamily="sans-serif"
         android:padding="4dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textSize="18sp"
+        tools:text="First Commandment" />
+
+    <TextView
         android:id="@+id/commandment_subheading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:padding="4dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/secondary_text"
+        android:textSize="12sp"
         tools:text="I am the LORD your God: you shall not have strange Gods before me."/>
 
 </LinearLayout>

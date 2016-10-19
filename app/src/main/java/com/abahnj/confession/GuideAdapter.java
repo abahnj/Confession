@@ -1,8 +1,11 @@
 package com.abahnj.confession;
 
+import android.annotation.TargetApi;
 import android.database.Cursor;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,12 +16,8 @@ import com.abahnj.confession.data.ConfessionContract;
  * Created by abahnj on 8/19/2016.
  */
 public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.GAViewHolder>{
-    private Cursor mCursor;
     private static GuideClickListener clickListener;
-
-    public interface GuideClickListener {
-        void onClick( int position);
-    }
+    private Cursor mCursor;
 
     public GuideAdapter(GuideClickListener clickListener){
         this.clickListener = clickListener;
@@ -43,10 +42,14 @@ public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.GAViewHolder
         return (mCursor != null) ? mCursor.getCount() : 0;
     }
 
-
     public void swapCursor(Cursor cursor){
         mCursor = cursor;
         notifyDataSetChanged();
+    }
+
+
+    public interface GuideClickListener {
+        void onClick(int position);
     }
 
     public class GAViewHolder extends RecyclerView.ViewHolder {
@@ -64,6 +67,20 @@ public class GuideAdapter extends RecyclerView.Adapter<GuideAdapter.GAViewHolder
                     clickListener.onClick(rowID);
                 }
             });
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                itemView.setOnTouchListener(new View.OnTouchListener() {
+                    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        v
+                                .findViewById(android.R.id.text1)
+                                .getBackground()
+                                .setHotspot(event.getX(), event.getY());
+                        return (false);
+                    }
+                });
+            }
 
         }
         public void setRowID(int rowID) {

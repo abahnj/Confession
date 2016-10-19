@@ -1,5 +1,6 @@
 package com.abahnj.confession;
 
+import android.app.DialogFragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.abahnj.confession.data.ConfessionContract;
 
@@ -139,10 +141,11 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getActivity().setTitle(fragmentTitle());
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_examination, container, false);
 
+        TextView textView = (TextView) rootView.findViewById(R.id.commandmentId);
+        textView.setText(fragmentTitle());
         Button nextButton = (Button) rootView.findViewById(R.id.nextFragment);
         Button previousButton = (Button) rootView.findViewById(R.id.previousFragment);
         nextButton.setOnClickListener(fragmentChange);
@@ -179,6 +182,7 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
 
     }
 
+
     private void updateCount(int rowID, int position, int addition) {
         int count = 0;
         int rowsUpdatedOrDeleted;
@@ -204,7 +208,7 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
         contentValues.put(ConfessionContract.PersonToSinEntry.COLUMN_SINS_ID, rowID);
         contentValues.put(ConfessionContract.PersonToSinEntry.COLUMN_COUNT, numberTree);
 
-        if (count == 0) {
+        if (count == 0 && addition < 1) {
         } else {
             if (addition == 0) {
                 rowsUpdatedOrDeleted = getActivity().getContentResolver().delete(
@@ -294,7 +298,7 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
                 updateCount(rowID, position, 0);
                 return true;
             case 3:
-                editExamination(info.id);
+                editExamination(rowID);
                 return true;
             /*case 4:
                 break;
@@ -307,7 +311,13 @@ public class ExaminationFragment extends Fragment implements LoaderManager.Loade
     }
 
 
-    private void editExamination(long id) {
+    private void editExamination(long rowId) {
+        Bundle args = new Bundle();
+        args.putInt(EditExaminationFragment.ROW_ID, (int) rowId);
+
+        DialogFragment newFragment = new EditExaminationFragment();
+        newFragment.setArguments(args);
+        newFragment.show(getActivity().getFragmentManager(), "editExamination");
 
     }
 

@@ -316,6 +316,13 @@ public class ConfessionProvider extends ContentProvider {
                 }
                 break;
             }
+            case SIN: {
+                rowsUpdated = db.update(ConfessionContract.SinEntry.TABLE_NAME,
+                        values,
+                        selection,
+                        selectionArgs);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }

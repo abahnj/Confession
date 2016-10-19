@@ -10,7 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="!st Commadnemednt"
+        android:padding="16dp"
+        android:text="1st Commandment"
+        android:textColor="@color/black"
         android:textSize="18sp" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewE"

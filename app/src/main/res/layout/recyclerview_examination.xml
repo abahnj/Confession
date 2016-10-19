@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/row_contentE"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/touch_selector"
-    android:padding="16dp"
+    android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
     android:orientation="horizontal"
-     xmlns:tools="http://schemas.android.com/tools">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/txtCorE"
@@ -17,24 +18,24 @@
         android:textSize="12sp"
         tools:text="c"/>
     <TextView
-        android:fontFamily="sans-serif"
         android:id="@+id/txtSin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="9"
+        android:fontFamily="sans-serif"
         android:textSize="16sp"
         tools:text="Do I not give God time everyday in prayer"
         />
     <TextView
-        android:layout_margin="4dp"
-        android:minHeight="24dp"
         android:id="@+id/txtSinCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:gravity="center"
+        android:layout_margin="4dp"
         android:layout_weight="1"
+        android:gravity="center"
+        android:minHeight="24dp"
         android:textSize="16sp"
         tools:text="2"/>
 </LinearLayout>

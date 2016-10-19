@@ -1,9 +1,12 @@
 package com.abahnj.confession;
 
+import android.annotation.TargetApi;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -15,14 +18,9 @@ import com.abahnj.confession.data.ConfessionContract.CommandmentEntry;
  */
 public class CommandmentAdapter extends RecyclerView.Adapter<CommandmentAdapter.CAViewHolder> {
 
-    private Cursor mCursor;
     private static CommandmentClickListener clickListener;
+    private Cursor mCursor;
 
-
-    public interface CommandmentClickListener {
-
-        void onClick(Uri examinationUri, int position);
-    }
 
     public CommandmentAdapter(CommandmentClickListener clickListener){
         this.clickListener = clickListener;
@@ -54,6 +52,11 @@ public class CommandmentAdapter extends RecyclerView.Adapter<CommandmentAdapter.
         notifyDataSetChanged();
     }
 
+    public interface CommandmentClickListener {
+
+        void onClick(Uri examinationUri, int position);
+    }
+
     public class CAViewHolder extends RecyclerView.ViewHolder {
         public final TextView mTextView1;
         public final TextView mTextView2;
@@ -71,6 +74,20 @@ public class CommandmentAdapter extends RecyclerView.Adapter<CommandmentAdapter.
                     clickListener.onClick(CommandmentEntry.buildCommandmentUri(rowID), (int)rowID);
                 }
             });
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                itemView.setOnTouchListener(new View.OnTouchListener() {
+                    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        v
+                                .findViewById(R.id.row_contentC)
+                                .getBackground()
+                                .setHotspot(event.getX(), event.getY());
+                        return (false);
+                    }
+                });
+            }
         }
 
         // set the database row ID for the contact in this ViewHolder

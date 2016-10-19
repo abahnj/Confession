@@ -22,15 +22,11 @@ public class ConfessionIntro extends AppIntro {
         addSlide(AppIntroFragment.newInstance("Catholic", "Fully in line with the Churches teachings", R.drawable.intro3, Color.parseColor("#4CAF50")));
         addSlide(AppIntroFragment.newInstance("Guide", "Step by step guide to a Catholic Confession", R.drawable.intro4, Color.parseColor("#00BCD4")));
 
-        setSeparatorColor(Color.parseColor("#2196F3"));
+        showSkipButton(false);
+        //setSeparatorColor(Color.parseColor("#2196F3"));
 
     }
 
-    @Override
-    public void onSkipPressed(Fragment currentFragment) {
-        super.onSkipPressed(currentFragment);
-        // Do something when users tap on Skip button.
-    }
 
     @Override
     public void onDonePressed(Fragment currentFragment) {

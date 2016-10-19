@@ -1,5 +1,6 @@
 package com.abahnj.confession;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -7,6 +8,7 @@ import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -27,11 +29,6 @@ public class ExaminationAdapter extends RecyclerView.Adapter<ExaminationAdapter.
     public ExaminationAdapter (ExaminationClickListener clickListener, Context activity){
         ExaminationAdapter.clickListener = clickListener;
         context = activity;
-    }
-
-    @Override
-    public void setHasStableIds(boolean hasStableIds) {
-        super.setHasStableIds(true);
     }
 
     @Override
@@ -108,7 +105,19 @@ public class ExaminationAdapter extends RecyclerView.Adapter<ExaminationAdapter.
                 }
             });
 
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                itemView.setOnTouchListener(new View.OnTouchListener() {
+                    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        v
+                                .findViewById(R.id.row_contentE)
+                                .getBackground()
+                                .setHotspot(event.getX(), event.getY());
+                        return (false);
+                    }
+                });
+            }
             itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
 
 
@@ -117,7 +126,7 @@ public class ExaminationAdapter extends RecyclerView.Adapter<ExaminationAdapter.
 
                     menu.add(0, 1, 0, R.string.context_menu_count);
                     menu.add(0, 2, 0, R.string.reset_count);
-                    //menu.add(0, 3, 0, R.string.context_menu_edit);
+                    menu.add(0, 3, 0, R.string.context_menu_edit);
                     //menu.add(0, 4, 0, R.string.context_menu_delete);
                     //menu.add(0, 5, 0, R.string.context_menu_restore);
 
