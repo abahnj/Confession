@@ -35,6 +35,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "MyPrefsFile";
     private static final int REQUEST_CODE_ENABLE = 11;
+    private static SharedPreferences user;
     private static Long dob;
     private static Long lastConfession;
     private static int id;
@@ -101,6 +102,9 @@ public class CreateUserActivity extends AppCompatActivity {
         if(getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        user = getSharedPreferences(PREFS_NAME, 0);
+
+
         if(getIntent()!= null ){
             Intent intent = getIntent();
             String title;
@@ -118,8 +122,7 @@ public class CreateUserActivity extends AppCompatActivity {
         }
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
-        SharedPreferences userId = getSharedPreferences(PREFS_NAME, 0);
-        id = userId.getInt("id", 99);
+
 
 
         Spinner sexSpinner = (Spinner) findViewById(R.id.sex_spinner);
@@ -131,6 +134,10 @@ public class CreateUserActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         sexSpinner.setAdapter(sexAdapter);
         sexSpinner.setOnItemSelectedListener(VS);
+        int sexSpinnerSelection = user.getInt("sex", 99);
+        if (sexSpinnerSelection != 99) {
+            sexSpinner.setSelection(sexSpinnerSelection);
+        }
 
         Spinner ageSpinner = (Spinner) findViewById(R.id.age_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -142,6 +149,11 @@ public class CreateUserActivity extends AppCompatActivity {
         ageSpinner.setAdapter(ageAdapter);
         ageSpinner.setOnItemSelectedListener(VS);
 
+        long ageSpinnerSelection = user.getLong("birthDate", 99);
+        if (ageSpinnerSelection != 99) {
+            ageSpinner.setSelection(Utility.getAge(ageSpinnerSelection));
+        }
+
         Spinner vocationSpinner = (Spinner) findViewById(R.id.vocation_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> vocationAdapter = ArrayAdapter.createFromResource(this,
@@ -151,6 +163,11 @@ public class CreateUserActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         vocationSpinner.setAdapter(vocationAdapter);
         vocationSpinner.setOnItemSelectedListener(VS);
+
+        int vocationSpinnerSelection = user.getInt("vocation", 99);
+        if (vocationSpinnerSelection != 99) {
+            vocationSpinner.setSelection(vocationSpinnerSelection);
+        }
 
         lc_tv = (TextView) findViewById(R.id.last_confession_button);
 
@@ -169,7 +186,6 @@ public class CreateUserActivity extends AppCompatActivity {
     // saves contact information to the database
     private void savePerson() {
 
-        SharedPreferences user = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = user.edit();
 
         // create ContentValues object containing contact's key-value pairs
@@ -181,6 +197,7 @@ public class CreateUserActivity extends AppCompatActivity {
         contentValues.put(ConfessionContract.PersonEntry.COLUMN_ACTOFCONTRITION, 2);
 
         if (id != 99) {
+
 
             int updateId = getContentResolver().update(ConfessionContract.PersonEntry.buildPersonUri(id),
                     contentValues, null, null);

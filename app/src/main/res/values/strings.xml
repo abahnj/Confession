@@ -75,7 +75,7 @@
     <string name="here_are_my_sins">Here are my sins</string>
     <string name="act_of_contrition">Act of Contrition</string>
     <string name="faq">FAQ</string>
-    <string name="as_said_by_popes">... As said by Popes</string>
+    <string name="as_said_by_popes">… As said by Popes</string>
     <string name="extracts_fulton_sheen">Extracts from Frequent Confession (Fulton Sheen)</string>
     <string name="catechism_of_the_catholic_church">Catechism of the Catholic Church</string>
     <string name="how_to_make_a_good_confession">How to Make a Good Confession</string>
@@ -94,4 +94,8 @@
     <string name="emptyTextView">I seem to be empty.....\n are you sure you have performed an examination of conscience</string>
     <string name="snackbar_success_text">Examination Updated Successfully</string>
     <string name="edit_examination_dialog_title">Edit Examination</string>
+    <string name="share">Share</string>
+    <string name="send_to">Send With</string>
+    <string name="examination_image">Examination Image</string>
+    <string name="prayers_image">Prayers Image</string>
 </resources>

@@ -2,10 +2,9 @@ package com.abahnj.confession;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +16,7 @@ import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 public class MainActivity extends PinCompatActivity {
 
     public static final String PREFS_NAME = "MyPrefsFile";
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,17 +76,23 @@ public class MainActivity extends PinCompatActivity {
             case R.id.action_settings:
                 showSettings();
                 return true;
+            case R.id.action_share:
+                setShareIntent();
+                return true;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
-    private void setNightMode(@AppCompatDelegate.NightMode int nightMode) {
-        AppCompatDelegate.setDefaultNightMode(nightMode);
 
-        if (Build.VERSION.SDK_INT >= 11) {
-            recreate();
-        }
+    // Call to update the share intent
+    private void setShareIntent() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
     }
+
 
     private void showSettings() {
         Intent intent = new Intent(this, CreateUserActivity.class);
@@ -94,17 +100,6 @@ public class MainActivity extends PinCompatActivity {
         startActivity(intent);
     }
 
-    private void resetApp() {
-        SharedPreferences getPrefs = PreferenceManager
-                .getDefaultSharedPreferences(getBaseContext());
-
-        //  Make a new preferences editor
-        SharedPreferences.Editor e = getPrefs.edit();
-
-        //  Edit preference to make it false because we don't want this to run again
-        e.putBoolean("firstStart", true);
-        e.apply();
-    }
 
     public void examination (View view){
         Intent intent = new Intent(this, ExaminationActivity.class);

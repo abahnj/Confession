@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
@@ -44,7 +43,6 @@ public class PrayersActivity extends PinCompatActivity implements PrayersFragmen
 
     @Override
     public void onPrayersSelected(Uri prayersUri) {
-        Toast.makeText(this, prayersUri.toString(), Toast.LENGTH_SHORT).show();
         if (findViewById(R.id.prayersContainer) != null) // phone
             displayPrayers(prayersUri, R.id.prayersContainer);
         else { // tablet

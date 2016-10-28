@@ -9,11 +9,11 @@ import java.util.Calendar;
 /**
  * Created by abahnj on 7/3/2016.
  */
-public class Utility {
+class Utility {
 
     private static final int SUCCESS_RETURN_CODE = 1;
 
-    public static String calculateAgeBracket(Long birthDate) {
+    static String calculateAgeBracket(Long birthDate) {
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -13);
@@ -30,7 +30,7 @@ public class Utility {
         }
     }
 
-    public static String vocationSelection (int vocation){
+    static String vocationSelection(int vocation) {
 
         String vocationSelection;
         switch (vocation){
@@ -51,7 +51,7 @@ public class Utility {
         return vocationSelection;
         }
 
-    public static String sexSelection(int sex) {
+    static String sexSelection(int sex) {
         String sexSelection;
         switch (sex){
             case 0:
@@ -65,7 +65,7 @@ public class Utility {
         return sexSelection;
     }
 
-    public static String lastConfession(Context context, long lastConfession) {
+    static String lastConfession(Context context, long lastConfession) {
         String timeSince = null;
         long currentTime = System.currentTimeMillis();
         long timeSinceLC = currentTime - lastConfession;
@@ -90,7 +90,7 @@ public class Utility {
     }
 
 
-    public static long setAge(int position) {
+    static long setAge(int position) {
         long age;
         Calendar calendar = Calendar.getInstance();
         long child_limit = calendar.getTimeInMillis();
@@ -112,6 +112,25 @@ public class Utility {
         }
 
     return age;
+    }
+
+    static int getAge(long age) {
+        int position = 99;
+        Calendar calendar = Calendar.getInstance();
+        long child_limit = calendar.getTimeInMillis();
+        calendar.add(Calendar.YEAR, -13);
+        long teen_limit = calendar.getTimeInMillis();
+        calendar.add(Calendar.YEAR, -5);
+        long adult_limit = calendar.getTimeInMillis();
+
+
+        if (age <= adult_limit)
+            position = 0;
+        else if (age <= teen_limit)
+            position = 1;
+        else if (age > teen_limit)
+            position = 2;
+        return position;
     }
 }
 

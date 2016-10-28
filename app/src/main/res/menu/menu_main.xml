@@ -8,4 +8,11 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/abc_ic_menu_share_mtrl_alpha"
+        android:title="@string/share"
+        app:showAsAction="ifRoom" />
+
+
 </menu>
