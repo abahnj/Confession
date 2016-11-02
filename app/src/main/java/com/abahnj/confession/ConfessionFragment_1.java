@@ -3,12 +3,16 @@ package com.abahnj.confession;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
+
+import static android.util.TypedValue.applyDimension;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -28,13 +32,13 @@ public class ConfessionFragment_1 extends Fragment {
         TextView lcTextView = (TextView) rootView.findViewById(R.id.time_since_last);
         SharedPreferences user = getActivity().getSharedPreferences(MainActivity.PREFS_NAME, 0);
         long lastConfession = user.getLong("lastConfession", 99);
-        Button nextButton = (Button) rootView.findViewById(R.id.nextFragment);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onFragmentInteraction(FRAGMENT_TAG);
-            }
-        });
+
+        getActivity().findViewById(R.id.linearLayout2).setVisibility(View.VISIBLE);
+        AppBarLayout appbar = (AppBarLayout) getActivity().findViewById(R.id.appbar1);
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appbar.getLayoutParams();
+        params.height = (int) applyDimension(TypedValue.COMPLEX_UNIT_DIP, 192, getResources().getDisplayMetrics());
+        appbar.setLayoutParams(params);
+
         lcTextView.setText(Utility.lastConfession(getActivity(), lastConfession));
 
         return rootView;

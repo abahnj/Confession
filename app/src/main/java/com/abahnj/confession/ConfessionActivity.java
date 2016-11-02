@@ -3,21 +3,25 @@ package com.abahnj.confession;
 import android.app.DialogFragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.animation.Animation;
+import android.widget.Button;
 
 import com.abahnj.confession.data.ConfessionContract;
-import com.bumptech.glide.Glide;
 import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 
 import java.util.Random;
 
+import static android.util.TypedValue.applyDimension;
+
 public class ConfessionActivity extends PinCompatActivity implements OnFragmentInteractionListener {
 
     public static final String PREFS_NAME = "MyPrefsFile";
-    private ConfessionFragment_1 confessionFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +31,19 @@ public class ConfessionActivity extends PinCompatActivity implements OnFragmentI
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Button nextButton = (Button) findViewById(R.id.nextFragment);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFragmentInteraction(1);
+            }
+        });
+
+
         if (savedInstanceState == null &&
                 findViewById(R.id.confessionContainer) != null) {
             // create Confession Fragment
-            confessionFragment = new ConfessionFragment_1();
+            ConfessionFragment_1 confessionFragment = new ConfessionFragment_1();
 
 
             // add the fragment to the FrameLayout
@@ -39,19 +52,20 @@ public class ConfessionActivity extends PinCompatActivity implements OnFragmentI
             transaction.add(R.id.confessionContainer, confessionFragment);
             transaction.commit(); // display Confession Fragment
         }
-        //loadBackdrop();
-    }
-    private void loadBackdrop() {
-        final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        Glide.with(this).load(R.drawable.examination).centerCrop().into(imageView);
     }
 
     @Override
     public void onFragmentInteraction(int fragmentTag) {
         switch (fragmentTag) {
             case 1:
+                AppBarLayout appbar = (AppBarLayout) findViewById(R.id.appbar1);
                 ConfessionFragment_2 confessionFragment2 = new ConfessionFragment_2();
                 displayFragment(confessionFragment2, R.id.confessionContainer);
+
+                Animation ani = new ResizeHeightAnimation(appbar, (int) applyDimension(TypedValue.COMPLEX_UNIT_DIP, 256, getResources().getDisplayMetrics())/* target layout height */);
+                ani.setDuration(500/* animation time */);
+                appbar.startAnimation(ani);
+
                 break;
             case 2:
                 ConfessionFragment_3 confessionFragment3 = new ConfessionFragment_3();
@@ -77,7 +91,7 @@ public class ConfessionActivity extends PinCompatActivity implements OnFragmentI
         newFragment.setArguments(args);
         newFragment.show(getFragmentManager(), "inspiration");
 
-        final int delete = getContentResolver().delete(ConfessionContract.PersonToSinEntry.CONTENT_URI, null, null);
+        getContentResolver().delete(ConfessionContract.PersonToSinEntry.CONTENT_URI, null, null);
     }
 
     @Override

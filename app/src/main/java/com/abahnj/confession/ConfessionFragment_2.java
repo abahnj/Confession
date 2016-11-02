@@ -82,6 +82,13 @@ public class ConfessionFragment_2 extends Fragment implements LoaderManager.Load
         });
         emptyTextView = (TextView) rootView.findViewById(R.id.emptyTextView);
 
+        getActivity().findViewById(R.id.linearLayout2).setVisibility(View.GONE);
+
+       /* AppBarLayout appbar = (AppBarLayout) getActivity().findViewById(R.id.appbar1);
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)appbar.getLayoutParams() ;
+        params.height = (int) applyDimension(TypedValue.COMPLEX_UNIT_DIP, 256, getResources().getDisplayMetrics());
+        appbar.setLayoutParams(params);*/
+
         RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerViewS);
         mRecyclerView.setHasFixedSize(true);
 

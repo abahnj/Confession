@@ -12,7 +12,6 @@ import com.github.orangegangsters.lollipin.lib.PinCompatActivity;
 public class PrayersActivity extends PinCompatActivity implements PrayersFragment.PrayersFragmentListener {
 
     public static final String PRAYERS_URI = "prayers_uri";
-    private PrayersFragment prayersFragment;
 
 
     @Override
@@ -26,7 +25,7 @@ public class PrayersActivity extends PinCompatActivity implements PrayersFragmen
         if (savedInstanceState == null &&
                 findViewById(R.id.prayersContainer) != null) {
             // create Examination Fragment
-            prayersFragment = new PrayersFragment();
+            PrayersFragment prayersFragment = new PrayersFragment();
 
             // add the fragment to the FrameLayout
             FragmentTransaction transaction =

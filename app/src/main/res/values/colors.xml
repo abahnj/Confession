@@ -10,6 +10,7 @@
     <color name="green">#ff00ff00</color>
     <color name="blue">#ff0000ff</color>
     <color name="grey">#eeeeee</color>
+    <color name="material_grey_3000">#FFE0E0E0</color>
     <color name="secondary_text">#727272</color>
-
+    <color name="lemon_meringue">#F4E8C1</color>
 </resources>

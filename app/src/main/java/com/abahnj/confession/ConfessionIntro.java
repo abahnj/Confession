@@ -31,9 +31,9 @@ public class ConfessionIntro extends AppIntro {
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
+        finish();
         Intent intent = new Intent(this, CreateUserActivity.class);
         startActivity(intent);
-        finish();
     }
 
     @Override

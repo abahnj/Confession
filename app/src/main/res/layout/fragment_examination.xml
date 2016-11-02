@@ -11,9 +11,9 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="16dp"
-        android:text="1st Commandment"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewE"
         android:layout_width="match_parent"
@@ -33,6 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/material_grey_3000"
             android:onClick="switchFragment"
             android:text="@string/previous"
             android:textAlignment="center" />
@@ -43,6 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/material_grey_3000"
             android:text="@string/next" />
     </LinearLayout>
 

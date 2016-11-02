@@ -34,7 +34,6 @@
     <style name="MyDatePicker" parent="android:Widget.Material.DatePicker">
         <item name="android:datePickerMode">spinner</item>
     </style>
-
     <style name="TextLabel" parent="TextAppearance.Design.Hint">
         <item name="android:textSize">16sp</item>
     </style>

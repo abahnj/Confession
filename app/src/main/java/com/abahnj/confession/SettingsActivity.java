@@ -6,10 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -23,14 +21,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.abahnj.confession.data.ConfessionContract;
-import com.github.orangegangsters.lollipin.lib.managers.AppLock;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-public class CreateUserActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "MyPrefsFile";
     private static final int REQUEST_CODE_ENABLE = 11;
@@ -97,30 +94,28 @@ public class CreateUserActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null)
+        if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         user = getSharedPreferences(PREFS_NAME, 0);
 
 
-        if(getIntent()!= null ){
+        if (getIntent() != null) {
             Intent intent = getIntent();
             String title;
-            if(intent.hasExtra("settings")) {
+            if (intent.hasExtra("settings")) {
                 title = intent.getStringExtra("settings");
                 getSupportActionBar().setTitle(title);
                 CoordinatorLayout.LayoutParams params =
                         (CoordinatorLayout.LayoutParams) frameLayout.getLayoutParams();
                 params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
                 frameLayout.requestLayout();
-            }else {
+            } else {
                 toolbar.setVisibility(View.GONE);
             }
 
         }
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-
-
 
 
         Spinner sexSpinner = (Spinner) findViewById(R.id.sex_spinner);
@@ -176,14 +171,8 @@ public class CreateUserActivity extends AppCompatActivity {
         savePersonButton.setOnClickListener(BC);
 
 
-        long lastConfessionDate = user.getLong("lastConfession", 99);
-
-        if (lastConfessionDate == 99) {
-            lastConfession = System.currentTimeMillis();
-        } else {
-            lastConfession = lastConfessionDate;
-        }
-        SimpleDateFormat dateInstance = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault());
+        lastConfession = System.currentTimeMillis();
+        SimpleDateFormat dateInstance = new SimpleDateFormat("d'th' MMM yyyy", Locale.getDefault());
         lc_tv.setText(dateInstance.format(lastConfession));
     }
 
@@ -212,31 +201,9 @@ public class CreateUserActivity extends AppCompatActivity {
             editor.putLong("birthDate", dob);
             editor.putLong("lastConfession", lastConfession);
             editor.apply();
-
-            if (!getIntent().hasExtra("settings")) {
-                Intent intent = new Intent(this, ConfessionPinActivity.class);
-                intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
-                startActivityForResult(intent, REQUEST_CODE_ENABLE);
-            }
-
             finish();
-
         }
 
-    }
-
-
-    public void setPrefs(){
-        SharedPreferences getPrefs = PreferenceManager
-                .getDefaultSharedPreferences(getBaseContext());
-        //  Make a new preferences editor
-        SharedPreferences.Editor e = getPrefs.edit();
-
-        //  Edit preference to make it false because we don't want this to run again
-        e.putBoolean("firstStart", false);
-
-        //  Apply changes
-        e.apply();
     }
 
 
@@ -246,18 +213,4 @@ public class CreateUserActivity extends AppCompatActivity {
 
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode){
-            case REQUEST_CODE_ENABLE:
-                setPrefs();
-                Snackbar.make(coordinatorLayout, "PinCode enabled", Snackbar.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                break;
-        }
-    }
 }
