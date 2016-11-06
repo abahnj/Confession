@@ -219,8 +219,6 @@ public class CreateUserActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_CODE_ENABLE);
             }
 
-            finish();
-
         }
 
     }
@@ -257,6 +255,7 @@ public class CreateUserActivity extends AppCompatActivity {
                 Snackbar.make(coordinatorLayout, "PinCode enabled", Snackbar.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                finish();
                 break;
         }
     }
