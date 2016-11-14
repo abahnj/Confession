@@ -11,16 +11,16 @@ import android.provider.BaseColumns;
 public class ConfessionContract {
 
     // ContentProvider's name: typically the package name
-    public static final String CONTENT_AUTHORITY =
+    static final String CONTENT_AUTHORITY =
             "com.abahnj.confession";
-    public static final String PATH_PERSON = "PERSON";
-    public static final String PATH_COMMANDMENTS = "COMMANDMENTS";
-    public static final String PATH_SIN = "SIN";
-    public static final String PATH_SIN_ACTIVE = "SIN_ACTIVE";
-    public static final String PATH_PERSON_2_SIN = "PERSON_2_SIN";
-    public static final String PATH_PRAYERS = "PRAYERS";
-    public static final String PATH_INSPIRATION = "INSPIRATION";
-    public static final String PATH_GUIDE = "guide_main";
+    static final String PATH_PERSON = "PERSON";
+    static final String PATH_COMMANDMENTS = "COMMANDMENTS";
+    static final String PATH_SIN = "SIN";
+    static final String PATH_SIN_ACTIVE = "SIN_ACTIVE";
+    static final String PATH_PERSON_2_SIN = "PERSON_2_SIN";
+    static final String PATH_PRAYERS = "PRAYERS";
+    static final String PATH_INSPIRATION = "INSPIRATION";
+    static final String PATH_GUIDE = "guide_main";
 
     // base URI used to interact with the ContentProvider
     private static final Uri BASE_CONTENT_URI =
@@ -30,20 +30,10 @@ public class ConfessionContract {
     public static final class PersonEntry implements BaseColumns{
 
 
-
-        public static final String TABLE_NAME = "PERSON";
-
         //Uri for the person
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
                 .appendPath(PATH_PERSON)
                 .build();
-
-        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PERSON;
-
-        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PERSON;
-
-
-
         // column names person table's columns
         public static final String COLUMN_NAME = "NAME";
         public static final String COLUMN_SEX = "SEX";
@@ -52,6 +42,9 @@ public class ConfessionContract {
         public static final String COLUMN_ACTOFCONTRITION = "ACTOFCONTRITION";
         public static final String COLUMN_BIRTHDATE = "BIRTHDATE";
         public static final String COLUMN_PASSWORD = "PASSWORD";
+        static final String TABLE_NAME = "PERSON";
+        static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PERSON;
+        static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_PERSON;
 
         // creates a Uri for a specific person
         public static Uri buildPersonUri(long id) {
@@ -61,23 +54,18 @@ public class ConfessionContract {
 
     public static final class CommandmentEntry implements BaseColumns{
 
-        public static final String TABLE_NAME = "COMMANDMENTS";
-
-
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
                 .appendPath(PATH_COMMANDMENTS)
                 .build();
-
         public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_COMMANDMENTS;
-
         public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_COMMANDMENTS;
-
         // column names commandment table's columns
         public static final String COLUMN_NUMBER = "NUMBER";
         public static final String COLUMN_TEXT = "TEXT";
         public static final String COLUMN_CATEGORY = "CATEGORY";
         public static final String COLUMN_COMMANDMENT = "COMMANDMENT";
         public static final String COLUMN_CUSTOMID = "CUSTOM_ID";
+        static final String TABLE_NAME = "COMMANDMENTS";
 
         // creates a Uri for a specific person
         public static Uri buildCommandmentUri(long id) {
@@ -168,16 +156,14 @@ public class ConfessionContract {
     }
 
     public static final class PrayersEntry implements BaseColumns {
-        public static final String TABLE_NAME = "PRAYERS";
-
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
                 .appendPath(PATH_PRAYERS)
                 .build();
-
         public static final String COLUMN_PRAYERNAME = "PRAYERNAME";
         public static final String COLUMN_PRAYERTEXT = "PRAYERTEXT";
         public static final String COLUMN_GROUPNAME = "GROUPNAME";
         public static final String COLUMN_CUSTOM = "CUSTOM";
+        static final String TABLE_NAME = "PRAYERS";
 
         public static Uri buildPrayersUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
@@ -186,29 +172,25 @@ public class ConfessionContract {
     }
 
     public static final class InspirationEntry implements BaseColumns {
-        public static final String TABLE_NAME = "INSPIRATION";
-
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
                 .appendPath(PATH_INSPIRATION)
                 .build();
-
         public static final String COLUMN_QUOTE = "QUOTE";
         public static final String COLUMN_AUTHOR = "AUTHOR";
+        static final String TABLE_NAME = "INSPIRATION";
 
     }
 
     public static final class GuideEntry implements BaseColumns{
-        public static final String TABLE_NAME = "guide_main";
-
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
                 .appendPath(PATH_GUIDE)
                 .build();
-
         public static final String COLUMN_HEADER_ID ="h_id";
         public static final String COLUMN_GUIDE_ID="g_id";
         public static final String COLUMN_GUIDE_TITLE="g_title";
         public static final String COLUMN_GUIDE_TEXT="text";
         public static final String COLUMN_IMG_NAME="img_name";
+        static final String TABLE_NAME = "guide_main";
 
     }
 

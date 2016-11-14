@@ -1,5 +1,4 @@
 <resources xmlns:xliff="http://schemas.android.com/apk/res-auto">>
-    <string name="app_name">Confession</string>
     <string name="title_activity_main">Confession : A Catholic App</string>
     <string name="title_activity_create_user">Create User</string>
 
@@ -19,7 +18,6 @@
     <string name="religious">Religious</string>
     <string name="last_confession">Last Confession</string>
     <string name="save">Save</string>
-    <string name="content_authority">com.abahnj.confession</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="person_added">User added successfully</string>
     <string name="cancel">Cancel</string>

@@ -3,12 +3,13 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion "25"
-
     defaultConfig {
+        resValue("string", "app_name", "Confession")
+        resValue("string", "content_authority", "com.abahnj.confession")
         applicationId "com.abahnj.confession"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 6
+        versionCode 7
         versionName "1.0"
     }
     buildTypes {
@@ -16,7 +17,15 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            applicationIdSuffix = ".debug"
+            resValue("string", "app_name", "Debug")
+            resValue("string", "content_authority", "com.abahnj.confession.debug")
+
+
+        }
     }
+
 }
 
 dependencies {
@@ -35,5 +44,6 @@ dependencies {
     compile 'com.github.paolorotolo:appintro:4.1.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:support-v4:25.0.0'
+    compile 'com.codemybrainsout.rating:ratingdialog:1.0.4'
     testCompile 'junit:junit:4.12'
 }
